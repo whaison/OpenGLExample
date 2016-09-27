@@ -19,6 +19,16 @@
 			<key>orderHint</key>
 			<integer>10</integer>
 		</dict>
+		<key>test12.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
+		<key>test13.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 		<key>test2.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -103,6 +113,16 @@
 			<true/>
 		</dict>
 		<key>780908801D9A1DA9001CC982</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>780908941D9A6AE8001CC982</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>780908A81D9A738C001CC982</key>
 		<dict>
 			<key>primary</key>
 			<true/>

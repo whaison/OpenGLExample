@@ -22,8 +22,8 @@ void main(void)
 	v_projCoord = u_shadowMatrix*vertex;
 
 	vertex = u_viewMatrix*vertex;
-
-	v_eye = -vec3(vertex);
+    
+	v_eye = vec3(0, 0, 0) - vec3(vertex);
 
 	v_normal = u_normalMatrix*a_normal;
 
