@@ -48,6 +48,7 @@ Example15 - Water rendering
 ![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test15.png?raw=true)
 
 Example16 - Model loading and rendering
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test16.png?raw=true)
 
 Example17 - Clipping planes and two sided rendering
 
