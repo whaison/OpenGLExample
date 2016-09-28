@@ -3,41 +3,49 @@ OpenGL
 
 OpenGL 3 and OpenGL 4 with GLSL
 
-Please read [GLUS/README.txt](https://github.com/McNopper/OpenGL/blob/master/GLUS/README.txt)
-
-Please read [Binaries/README.txt](https://github.com/McNopper/OpenGL/blob/master/Binaries/README.txt)
-
 ======
-
-Example01 - Basic window and OpenGL 3 initialization
 	
 Example02 - Rendering of a triangle
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test2.png?raw=true)
 
 Example03 - Grey filter
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test3.png?raw=true)
 	
 Example04 - Perspective rendering of a cube
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test4.png?raw=true)
 
 Example05 - Phong rendering of a sphere
-	
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test5.png?raw=true)
+
 Example06 - Texturing of a cube
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test6.png?raw=true)
 
 Example07 - Normal mapping
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test7.png?raw=true)
 
 Example08 - Environment/cube mapping
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test8.png?raw=true)
 
 Example09 - GPU Particles
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test9.png?raw=true)
 
 Example10 - Geometry shader
-	
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test10.png?raw=true)
+
 Example11 - Reflection and refraction
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test11.png?raw=true)
 
 Example12 - Shadow mapping
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test12.png?raw=true)
 
 Example13 - Simple tessellation (OpenGL 4.1)
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test13.png?raw=true)
 
 Example14 - Terrain rendering (OpenGL 4.1)
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test14.png?raw=true)
 
 Example15 - Water rendering
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test15.png?raw=true)
 
 Example16 - Model loading and rendering
 
