@@ -4,11 +4,6 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>test1.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>0</integer>
-		</dict>
 		<key>test10.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +23,16 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>12</integer>
+		</dict>
+		<key>test14.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
+		<key>test15.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
 		</dict>
 		<key>test2.xcscheme</key>
 		<dict>
@@ -123,6 +128,16 @@
 			<true/>
 		</dict>
 		<key>780908A81D9A738C001CC982</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>780908BC1D9B58E6001CC982</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>780908D01D9B5CC5001CC982</key>
 		<dict>
 			<key>primary</key>
 			<true/>

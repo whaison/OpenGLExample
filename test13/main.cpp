@@ -45,7 +45,9 @@ GLUSboolean init(GLUSvoid)
     glusFileLoadText("shaders/Example13/shader/tessellation.geom.glsl", &geometrySource);
     glusFileLoadText("shaders/Example13/shader/tessellation.frag.glsl", &fragmentSource);
     
-    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
+//    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
+    
+     glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, (const GLUSchar**) &controlSource.text, (const GLUSchar**) &evaluationSource.text, NULL, (const GLUSchar**) &fragmentSource.text);
     
     glusFileDestroyText(&vertexSource);
     glusFileDestroyText(&controlSource);
@@ -121,6 +123,8 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
 GLUSboolean update(GLUSfloat time)
 {
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     
     glDrawElements(GL_PATCHES, g_numberIndicesSphere, GL_UNSIGNED_INT, 0);
     
