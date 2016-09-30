@@ -89,15 +89,23 @@ static GLuint g_numberVertices;
 GLUSboolean init(GLUSvoid)
 {
     // This is a white light.
-    struct LightProperties light = { { 1.0f, 1.0f, 1.0f }, { 0.3f, 0.3f, 0.3f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f } };
+    struct LightProperties light = {
+        { 1.0f, 1.0f, 1.0f },
+        { 0.3f, 0.3f, 0.3f, 1.0f },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        { 1.0f, 1.0f, 1.0f, 1.0f }
+    };
     
     // Blue color material with white specular color.
-    struct MaterialProperties material = { { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 20.0f };
+    struct MaterialProperties material = {
+        { 0.0f, 1.0f, 0.0f, 1.0f },
+        { 0.0f, 1.0f, 0.0f, 1.0f },
+        { 1.0f, 1.0f, 1.0f, 1.0f },
+        20.0f
+    };
     
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
-    
-    GLUSshape wavefrontObj;
     
     glusFileLoadText("shaders/Example16/shader/phong.vert.glsl", &vertexSource);
     glusFileLoadText("shaders/Example16/shader/phong.frag.glsl", &fragmentSource);
@@ -127,7 +135,7 @@ GLUSboolean init(GLUSvoid)
     g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
     
     //
-    
+    GLUSshape wavefrontObj;
     // Use a helper function to load an wavefront object file.
     glusShapeLoadWavefront("Binaries/monkey.obj", &wavefrontObj);
     
@@ -274,7 +282,7 @@ int main(int argc, char* argv[])
         EGL_GREEN_SIZE, 8,
         EGL_BLUE_SIZE, 8,
         EGL_DEPTH_SIZE, 24,
-        EGL_STENCIL_SIZE, 0,
+        EGL_STENCIL_SIZE, 8,
         EGL_SAMPLE_BUFFERS, 1,
         EGL_SAMPLES, 8,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,

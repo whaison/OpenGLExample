@@ -22,7 +22,7 @@
 		<key>A63B048D5E9385C1EAAB0EE80AB84F7C2DC60F7F</key>
 		<string>../..</string>
 		<key>F91D28A7E95E8F0399C74826E40B332B63E48E1C</key>
-		<string>../..glfw/</string>
+		<string>../..glfw</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/BobLChen/OpenGLExample.git</string>
@@ -36,17 +36,17 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>F91D28A7E95E8F0399C74826E40B332B63E48E1C</string>
+			<string>A63B048D5E9385C1EAAB0EE80AB84F7C2DC60F7F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>glfw</string>
+			<string>OpenGLExample</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>A63B048D5E9385C1EAAB0EE80AB84F7C2DC60F7F</string>
+			<string>F91D28A7E95E8F0399C74826E40B332B63E48E1C</string>
 			<key>IDESourceControlWCCName</key>
-			<string>OpenGLExample</string>
+			<string>OpenGLExampleglfw</string>
 		</dict>
 	</array>
 </dict>

@@ -21,6 +21,7 @@ uniform	MaterialProperties u_material;
 
 in vec3 v_normal;
 in vec3 v_eye;
+in float v_distance;
 
 out vec4 fragColor;
 
@@ -55,5 +56,10 @@ void main()
 		color += u_light.specularColor * u_material.specularColor * specularIntensity;
 	}
 	
+	if (v_distance <= 0) {
+		discard;
+	}
+
 	fragColor = color;
+	
 }   

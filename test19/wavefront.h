@@ -1,20 +1,19 @@
-/**
- * OpenGL 3 - Example 19 - Rendering of the wavefront object
- *
- * @author	Norbert Nopper norbert@nopper.tv
- *
- * Homepage: http://nopper.tv
- *
- * Copyright Norbert Nopper
- */
+//
+//  wavefront.h
+//  OpenGLExample
+//
+//  Created by chenbo on 9/29/16.
+//  Copyright (c) 2016 chenbo. All rights reserved.
+//
 
-#ifndef WAVEFRONT_H_
-#define WAVEFRONT_H_
+#ifndef __OpenGLExample__wavefront__
+#define __OpenGLExample__wavefront__
+
 
 #include "GL/glus.h"
 
-#define TEXTURE_WIDTH 640
-#define TEXTURE_HEIGHT 480
+#define TEXTURE_WIDTH 800
+#define TEXTURE_HEIGHT 600
 
 /**
  * Properties of the camera.
@@ -78,4 +77,4 @@ GLUSboolean updateWavefront(GLUSfloat time, GLUSfloat scaleMatrix[16]);
 
 GLUSvoid terminateWavefront(GLUSvoid);
 
-#endif /* WAVEFRONT_H_ */
+#endif /* defined(__OpenGLExample__wavefront__) */

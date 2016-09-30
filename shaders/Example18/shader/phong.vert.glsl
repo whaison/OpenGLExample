@@ -11,12 +11,14 @@ in vec3 a_normal;
 
 out vec3 v_normal;
 out vec3 v_eye;
+out float v_distance;
 
 void main()
 {
 	vec4 vertex = u_modelMatrix * a_vertex;
 
-	gl_ClipDistance[0] = dot(u_plane, vertex);
+    v_distance = dot(u_plane, vertex);
+	// gl_ClipDistance[0] = v_distance;
 
 	vertex = u_viewMatrix * vertex;
 

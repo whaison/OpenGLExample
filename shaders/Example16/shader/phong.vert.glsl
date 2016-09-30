@@ -14,7 +14,7 @@ void main()
 {
 	vec4 vertex = u_modelViewMatrix * a_vertex;
 
-	v_eye = -vec3(vertex);
+	v_eye = vec3(0, 0, 5) -vec3(vertex);
 
 	v_normal = u_normalMatrix * a_normal;
 		

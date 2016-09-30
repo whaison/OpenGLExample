@@ -11,13 +11,16 @@ in vec3 a_normal;
 
 out vec3 v_normal;
 out vec3 v_eye;
+out float v_distance;
 
 void main()
 {
 	vec4 vertex = u_modelMatrix * a_vertex;
 
 	// Calculate the distance from the point to the plane - done in world space.
-	gl_ClipDistance[0] = dot(u_plane, vertex);
+	v_distance = dot(u_plane, vertex);
+	// equal fragment shader:Line 65
+	gl_ClipDistance[0] = v_distance;
 		
 	// Now sitch to camera / view space.
 	vertex = u_viewMatrix * vertex;
@@ -27,4 +30,5 @@ void main()
 	v_normal = u_normalMatrix * a_normal;
 		
 	gl_Position = u_projectionMatrix * vertex;
+
 }    
