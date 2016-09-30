@@ -27,8 +27,11 @@ void main(void)
 
 	vec4 vertex = u_modelMatrix * a_vertex;
 
-	// The vertex is now in the offscreen NDC. With the bias, the values are between 0.0 and 1.0 
-	v_projCoord = u_viewProjectionBiasTextureMatrix * vertex;
-
 	gl_Position = u_viewProjectionMatrix * vertex;
+
+    // The vertex is now in the offscreen NDC. With the bias, the values are between 0.0 and 1.0 
+    // v_projCoord = u_viewProjectionBiasTextureMatrix * vertex;
+    v_projCoord = gl_Position;
+    v_projCoord.xy = v_projCoord.xy / v_projCoord.w;
+    v_projCoord.xy = v_projCoord.xy * 0.5 + 0.5;
 }

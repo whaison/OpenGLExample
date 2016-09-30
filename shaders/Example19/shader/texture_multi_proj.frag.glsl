@@ -12,5 +12,6 @@ out vec4 fragColor;
 void main(void)
 {
 	// Compose the final image out of the ice picture and the dynamically created texture.
-	fragColor = mix(texture(u_texture, v_texCoord) * v_intensity, textureProj(u_mirrorTexture, v_projCoord), 0.25);
+	// fragColor = mix(texture(u_texture, v_texCoord) * v_intensity, textureProj(u_mirrorTexture, v_projCoord), 0.5);
+    fragColor = mix(texture(u_texture, v_texCoord) * v_intensity, texture(u_mirrorTexture, v_projCoord.xy), 0.5);
 }

@@ -164,8 +164,8 @@ GLUSboolean init(GLUSvoid)
     
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     
     glBindTexture(GL_TEXTURE_2D, 0);
     
@@ -259,7 +259,7 @@ GLUSboolean init(GLUSvoid)
     glUniform1i(g_mirrorTextureLocation, 1);
     
     // How many times the surface texture is repeated.
-    glUniform1f(g_repeatLocation, 6.0f);
+    glUniform1f(g_repeatLocation, 1.0f);
     
     //
     
@@ -299,8 +299,8 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
     glUniformMatrix4fv(g_viewProjectionMatrixLocation, 1, GL_FALSE, g_viewProjectionMatrix);
     
     glusMatrix4x4Identityf(modelMatrix);
-    glusMatrix4x4Translatef(modelMatrix, 0.0f, 0.0f, 3.0f);
-    glusMatrix4x4RotateRxf(modelMatrix, -90.0f);
+    glusMatrix4x4Translatef(modelMatrix, 0.0f, -0.5f, -2.0f);
+//    glusMatrix4x4RotateRxf(modelMatrix, -90.0f);
     glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, modelMatrix);
     
     // Calculation is in camera space
