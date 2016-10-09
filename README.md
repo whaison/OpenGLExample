@@ -51,12 +51,16 @@ Example16 - Model loading and rendering
 ![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test16.png?raw=true)
 
 Example17 - Clipping planes and two sided rendering
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test17.png?raw=true)
 
 Example18 - Using stencil buffer and clipping planes
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test18.png?raw=true)
 
 Example19 - Render to texture and planar reflection
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test19.png?raw=true)
 
 Example20 - Texture matrix, alpha blending and discarding
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test20.png?raw=true)
 
 Example21 - Compute shader (OpenGL 4.3)
 

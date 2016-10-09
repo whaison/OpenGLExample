@@ -1,15 +1,14 @@
-/**
- * OpenGL 3 - Example 20 - Rendering of the wavefront object
- *
- * @author	Norbert Nopper norbert@nopper.tv
- *
- * Homepage: http://nopper.tv
- *
- * Copyright Norbert Nopper
- */
+//
+//  wavefront.h
+//  OpenGLExample
+//
+//  Created by chenbo on 10/9/16.
+//  Copyright (c) 2016 chenbo. All rights reserved.
+//
 
-#ifndef WAVEFRONT_H_
-#define WAVEFRONT_H_
+#ifndef __OpenGLExample__wavefront__
+#define __OpenGLExample__wavefront__
+
 
 #include "GL/glus.h"
 
@@ -75,4 +74,4 @@ GLUSboolean updateWavefront(GLUSfloat time);
 
 GLUSvoid terminateWavefront(GLUSvoid);
 
-#endif /* WAVEFRONT_H_ */
+#endif /* defined(__OpenGLExample__wavefront__) */
