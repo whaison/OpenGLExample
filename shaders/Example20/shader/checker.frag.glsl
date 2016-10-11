@@ -14,7 +14,10 @@ void main(void)
 	if (s + t == 1.0)
 	{
 		discard;
-	}
+        // fragColor = vec4(1.0, 1.0, 0.0, 0.5);
+	} else {
+        fragColor = vec4(1.0, 1.0, 1.0, 0.5);
+    }
 
-	fragColor = vec4(1.0, 1.0, 0.0, 0.5);
+	
 }

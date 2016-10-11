@@ -62,9 +62,10 @@ Example19 - Render to texture and planar reflection
 Example20 - Texture matrix, alpha blending and discarding
 ![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test20.png?raw=true)
 
-Example21 - Compute shader (OpenGL 4.3)
+Example21 - Compute shader (OpenGL 4.3 not on Mac OS X)
 
 Example22 - Shadow volumes
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test22.png?raw=true)
 
 Example23 - Displacement mapping (OpenGL 4.1, AMD hardware - not on Mac OS X - has artifacts but used to work)
 
