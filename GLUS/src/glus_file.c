@@ -72,8 +72,13 @@ FILE* GLUSAPIENTRY glusFileOpen(const char* filename, const char* mode)
 
 	strcpy(buffer, GLUS_BASE_DIRECTORY);
 	strcat(buffer, filename);
+	
+	FILE* file = fopen(buffer, mode);
+	if (!file) {
+		printf("file not found:%s\n", filename);
+	}
 
-	return fopen(buffer, mode);
+	return file;
 }
 
 int GLUSAPIENTRY glusFileClose(FILE* stream)

@@ -223,6 +223,200 @@
 		7814AA321DB36CB60025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
 		7814AA331DB36CBD0025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
 		7814AA361DB36CEE0025F113 /* wavefront.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AA341DB36CEE0025F113 /* wavefront.cpp */; };
+		7814AA3E1DB36EB50025F113 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AA3D1DB36EB50025F113 /* main.cpp */; };
+		7814AA421DB36EC50025F113 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54A1D92918F001FAD7A /* Cocoa.framework */; };
+		7814AA431DB36ECB0025F113 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5461D929183001FAD7A /* OpenGL.framework */; };
+		7814AA441DB36ECF0025F113 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF55B1D92989D001FAD7A /* CoreVideo.framework */; };
+		7814AA451DB36ED40025F113 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5591D92988F001FAD7A /* IOKit.framework */; };
+		7814AA461DB36EDE0025F113 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5521D92963D001FAD7A /* libGLEW.a */; };
+		7814AA471DB36EE70025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
+		7814AA481DB36EEF0025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
+		7814AA491DB36F750025F113 /* Binaries in CopyFiles */ = {isa = PBXBuildFile; fileRef = 780907E81D979930001CC982 /* Binaries */; };
+		7814AA4A1DB36F750025F113 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
+		7814AA521DB36FC30025F113 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AA511DB36FC30025F113 /* main.cpp */; };
+		7814AA571DB36FCD0025F113 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
+		7814AA581DB36FD70025F113 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5461D929183001FAD7A /* OpenGL.framework */; };
+		7814AA591DB36FDB0025F113 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF55B1D92989D001FAD7A /* CoreVideo.framework */; };
+		7814AA5A1DB36FE00025F113 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5591D92988F001FAD7A /* IOKit.framework */; };
+		7814AA5B1DB36FEE0025F113 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54A1D92918F001FAD7A /* Cocoa.framework */; };
+		7814AA5C1DB36FF80025F113 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5521D92963D001FAD7A /* libGLEW.a */; };
+		7814AA5D1DB36FFF0025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
+		7814AA5E1DB370070025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
+		7814AA911DB378930025F113 /* bunny.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA601DB378920025F113 /* bunny.obj */; };
+		7814AA921DB378930025F113 /* ChessColumn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA611DB378920025F113 /* ChessColumn.tga */; };
+		7814AA931DB378930025F113 /* ChessKing.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA621DB378920025F113 /* ChessKing.obj */; };
+		7814AA941DB378930025F113 /* ChessKing.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA631DB378920025F113 /* ChessKing.obj.mtl */; };
+		7814AA951DB378930025F113 /* ChessKing.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA641DB378920025F113 /* ChessKing.tga */; };
+		7814AA961DB378930025F113 /* ChessPawn.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA651DB378920025F113 /* ChessPawn.obj */; };
+		7814AA971DB378930025F113 /* ChessPawn.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA661DB378920025F113 /* ChessPawn.obj.mtl */; };
+		7814AA981DB378930025F113 /* ChessPawn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA671DB378920025F113 /* ChessPawn.tga */; };
+		7814AA991DB378930025F113 /* cm_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA681DB378920025F113 /* cm_neg_x.tga */; };
+		7814AA9A1DB378930025F113 /* cm_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA691DB378920025F113 /* cm_neg_y.tga */; };
+		7814AA9B1DB378930025F113 /* cm_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6A1DB378920025F113 /* cm_neg_z.tga */; };
+		7814AA9C1DB378930025F113 /* cm_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6B1DB378920025F113 /* cm_pos_x.tga */; };
+		7814AA9D1DB378930025F113 /* cm_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6C1DB378920025F113 /* cm_pos_y.tga */; };
+		7814AA9E1DB378930025F113 /* cm_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6D1DB378930025F113 /* cm_pos_z.tga */; };
+		7814AA9F1DB378930025F113 /* COPYING.LESSER in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6E1DB378930025F113 /* COPYING.LESSER */; };
+		7814AAA01DB378930025F113 /* crate.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6F1DB378930025F113 /* crate.tga */; };
+		7814AAA11DB378930025F113 /* desert.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA701DB378930025F113 /* desert.tga */; };
+		7814AAA21DB378930025F113 /* doge2 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA711DB378930025F113 /* doge2 */; };
+		7814AAA31DB378930025F113 /* doge2.hdr in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA721DB378930025F113 /* doge2.hdr */; };
+		7814AAA41DB378930025F113 /* dragon.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA731DB378930025F113 /* dragon.obj */; };
+		7814AAA51DB378930025F113 /* elephant.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA741DB378930025F113 /* elephant.obj */; };
+		7814AAA61DB378930025F113 /* four_shapes_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA751DB378930025F113 /* four_shapes_color.tga */; };
+		7814AAA71DB378930025F113 /* four_shapes_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA761DB378930025F113 /* four_shapes_normal.tga */; };
+		7814AAA81DB378930025F113 /* grand_canyon_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA771DB378930025F113 /* grand_canyon_color.tga */; };
+		7814AAA91DB378930025F113 /* grand_canyon_height.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA781DB378930025F113 /* grand_canyon_height.tga */; };
+		7814AAAA1DB378930025F113 /* grand_canyon_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA791DB378930025F113 /* grand_canyon_normal.tga */; };
+		7814AAAB1DB378930025F113 /* ice.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7A1DB378930025F113 /* ice.tga */; };
+		7814AAAC1DB378930025F113 /* libEGL.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7B1DB378930025F113 /* libEGL.dll */; };
+		7814AAAD1DB378930025F113 /* libGLESv2.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7C1DB378930025F113 /* libGLESv2.dll */; };
+		7814AAAE1DB378930025F113 /* monkey.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7D1DB378930025F113 /* monkey.obj */; };
+		7814AAAF1DB378930025F113 /* particle.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7E1DB378930025F113 /* particle.tga */; };
+		7814AAB01DB378930025F113 /* README.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7F1DB378930025F113 /* README.txt */; };
+		7814AAB11DB378930025F113 /* rock_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA801DB378930025F113 /* rock_color.tga */; };
+		7814AAB21DB378930025F113 /* rock_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA811DB378930025F113 /* rock_normal.tga */; };
+		7814AAB31DB378930025F113 /* sponza in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA821DB378930025F113 /* sponza */; };
+		7814AAB41DB378930025F113 /* sponza.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA831DB378930025F113 /* sponza.mtl */; };
+		7814AAB51DB378930025F113 /* sponza.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA841DB378930025F113 /* sponza.obj */; };
+		7814AAB61DB378930025F113 /* teapot.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA851DB378930025F113 /* teapot.obj */; };
+		7814AAB71DB378930025F113 /* three_objects.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA861DB378930025F113 /* three_objects.mtl */; };
+		7814AAB81DB378930025F113 /* three_objects.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA871DB378930025F113 /* three_objects.obj */; };
+		7814AAB91DB378930025F113 /* tiger.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA881DB378930025F113 /* tiger.tga */; };
+		7814AABA1DB378930025F113 /* venusm.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA891DB378930025F113 /* venusm.obj */; };
+		7814AABB1DB378930025F113 /* water_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8A1DB378930025F113 /* water_neg_x.tga */; };
+		7814AABC1DB378930025F113 /* water_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8B1DB378930025F113 /* water_neg_y.tga */; };
+		7814AABD1DB378930025F113 /* water_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8C1DB378930025F113 /* water_neg_z.tga */; };
+		7814AABE1DB378930025F113 /* water_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8D1DB378930025F113 /* water_pos_x.tga */; };
+		7814AABF1DB378930025F113 /* water_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8E1DB378930025F113 /* water_pos_y.tga */; };
+		7814AAC01DB378930025F113 /* water_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8F1DB378930025F113 /* water_pos_z.tga */; };
+		7814AAC11DB378930025F113 /* wood_texture.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA901DB378930025F113 /* wood_texture.tga */; };
+		7814AACA1DB37A0A0025F113 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AAC91DB37A0A0025F113 /* main.cpp */; };
+		7814AACE1DB37A720025F113 /* Binaries in CopyFiles */ = {isa = PBXBuildFile; fileRef = 780907E81D979930001CC982 /* Binaries */; };
+		7814AACF1DB37A720025F113 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
+		7814AAD01DB37AA80025F113 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5461D929183001FAD7A /* OpenGL.framework */; };
+		7814AAD11DB37AAF0025F113 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF55B1D92989D001FAD7A /* CoreVideo.framework */; };
+		7814AAD21DB37AB40025F113 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5591D92988F001FAD7A /* IOKit.framework */; };
+		7814AAD31DB37AC10025F113 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54A1D92918F001FAD7A /* Cocoa.framework */; };
+		7814AAD41DB37ACB0025F113 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5521D92963D001FAD7A /* libGLEW.a */; };
+		7814AAD51DB37AD40025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
+		7814AAD61DB37AE40025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
+		7814AADE1DB37CFA0025F113 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AADD1DB37CFA0025F113 /* main.cpp */; };
+		7814AAE31DB37D0B0025F113 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
+		7814AAE41DB37D120025F113 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54A1D92918F001FAD7A /* Cocoa.framework */; };
+		7814AAE51DB37D160025F113 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5591D92988F001FAD7A /* IOKit.framework */; };
+		7814AAE61DB37D1E0025F113 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF55B1D92989D001FAD7A /* CoreVideo.framework */; };
+		7814AAE71DB37D240025F113 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5461D929183001FAD7A /* OpenGL.framework */; };
+		7814AAE81DB37D2E0025F113 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5521D92963D001FAD7A /* libGLEW.a */; };
+		7814AAE91DB37D370025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
+		7814AAEA1DB37D400025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
+		7814AAEB1DB37EAC0025F113 /* bunny.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA601DB378920025F113 /* bunny.obj */; };
+		7814AAEC1DB37EAC0025F113 /* ChessColumn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA611DB378920025F113 /* ChessColumn.tga */; };
+		7814AAED1DB37EAC0025F113 /* ChessKing.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA621DB378920025F113 /* ChessKing.obj */; };
+		7814AAEE1DB37EAC0025F113 /* ChessKing.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA631DB378920025F113 /* ChessKing.obj.mtl */; };
+		7814AAEF1DB37EAC0025F113 /* ChessKing.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA641DB378920025F113 /* ChessKing.tga */; };
+		7814AAF01DB37EAC0025F113 /* ChessPawn.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA651DB378920025F113 /* ChessPawn.obj */; };
+		7814AAF11DB37EAC0025F113 /* ChessPawn.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA661DB378920025F113 /* ChessPawn.obj.mtl */; };
+		7814AAF21DB37EAC0025F113 /* ChessPawn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA671DB378920025F113 /* ChessPawn.tga */; };
+		7814AAF31DB37EAC0025F113 /* cm_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA681DB378920025F113 /* cm_neg_x.tga */; };
+		7814AAF41DB37EAC0025F113 /* cm_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA691DB378920025F113 /* cm_neg_y.tga */; };
+		7814AAF51DB37EAC0025F113 /* cm_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6A1DB378920025F113 /* cm_neg_z.tga */; };
+		7814AAF61DB37EAC0025F113 /* cm_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6B1DB378920025F113 /* cm_pos_x.tga */; };
+		7814AAF71DB37EAC0025F113 /* cm_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6C1DB378920025F113 /* cm_pos_y.tga */; };
+		7814AAF81DB37EAC0025F113 /* cm_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6D1DB378930025F113 /* cm_pos_z.tga */; };
+		7814AAF91DB37EAC0025F113 /* COPYING.LESSER in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6E1DB378930025F113 /* COPYING.LESSER */; };
+		7814AAFA1DB37EAC0025F113 /* crate.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6F1DB378930025F113 /* crate.tga */; };
+		7814AAFB1DB37EAC0025F113 /* desert.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA701DB378930025F113 /* desert.tga */; };
+		7814AAFC1DB37EAC0025F113 /* doge2 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA711DB378930025F113 /* doge2 */; };
+		7814AAFD1DB37EAC0025F113 /* doge2.hdr in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA721DB378930025F113 /* doge2.hdr */; };
+		7814AAFE1DB37EAC0025F113 /* dragon.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA731DB378930025F113 /* dragon.obj */; };
+		7814AAFF1DB37EAC0025F113 /* elephant.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA741DB378930025F113 /* elephant.obj */; };
+		7814AB001DB37EAC0025F113 /* four_shapes_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA751DB378930025F113 /* four_shapes_color.tga */; };
+		7814AB011DB37EAC0025F113 /* four_shapes_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA761DB378930025F113 /* four_shapes_normal.tga */; };
+		7814AB021DB37EAC0025F113 /* grand_canyon_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA771DB378930025F113 /* grand_canyon_color.tga */; };
+		7814AB031DB37EAC0025F113 /* grand_canyon_height.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA781DB378930025F113 /* grand_canyon_height.tga */; };
+		7814AB041DB37EAC0025F113 /* grand_canyon_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA791DB378930025F113 /* grand_canyon_normal.tga */; };
+		7814AB051DB37EAC0025F113 /* ice.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7A1DB378930025F113 /* ice.tga */; };
+		7814AB061DB37EAC0025F113 /* libEGL.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7B1DB378930025F113 /* libEGL.dll */; };
+		7814AB071DB37EAC0025F113 /* libGLESv2.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7C1DB378930025F113 /* libGLESv2.dll */; };
+		7814AB081DB37EAC0025F113 /* monkey.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7D1DB378930025F113 /* monkey.obj */; };
+		7814AB091DB37EAC0025F113 /* particle.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7E1DB378930025F113 /* particle.tga */; };
+		7814AB0A1DB37EAC0025F113 /* README.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7F1DB378930025F113 /* README.txt */; };
+		7814AB0B1DB37EAC0025F113 /* rock_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA801DB378930025F113 /* rock_color.tga */; };
+		7814AB0C1DB37EAC0025F113 /* rock_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA811DB378930025F113 /* rock_normal.tga */; };
+		7814AB0D1DB37EAC0025F113 /* sponza in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA821DB378930025F113 /* sponza */; };
+		7814AB0E1DB37EAC0025F113 /* sponza.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA831DB378930025F113 /* sponza.mtl */; };
+		7814AB0F1DB37EAC0025F113 /* sponza.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA841DB378930025F113 /* sponza.obj */; };
+		7814AB101DB37EAC0025F113 /* teapot.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA851DB378930025F113 /* teapot.obj */; };
+		7814AB111DB37EAC0025F113 /* three_objects.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA861DB378930025F113 /* three_objects.mtl */; };
+		7814AB121DB37EAC0025F113 /* three_objects.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA871DB378930025F113 /* three_objects.obj */; };
+		7814AB131DB37EAC0025F113 /* tiger.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA881DB378930025F113 /* tiger.tga */; };
+		7814AB141DB37EAC0025F113 /* venusm.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA891DB378930025F113 /* venusm.obj */; };
+		7814AB151DB37EAC0025F113 /* water_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8A1DB378930025F113 /* water_neg_x.tga */; };
+		7814AB161DB37EAC0025F113 /* water_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8B1DB378930025F113 /* water_neg_y.tga */; };
+		7814AB171DB37EAC0025F113 /* water_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8C1DB378930025F113 /* water_neg_z.tga */; };
+		7814AB181DB37EAC0025F113 /* water_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8D1DB378930025F113 /* water_pos_x.tga */; };
+		7814AB191DB37EAC0025F113 /* water_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8E1DB378930025F113 /* water_pos_y.tga */; };
+		7814AB1A1DB37EAC0025F113 /* water_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8F1DB378930025F113 /* water_pos_z.tga */; };
+		7814AB1B1DB37EAC0025F113 /* wood_texture.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA901DB378930025F113 /* wood_texture.tga */; };
+		7814AB231DB37F1E0025F113 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7814AB221DB37F1E0025F113 /* main.cpp */; };
+		7814AB271DB37F2F0025F113 /* bunny.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA601DB378920025F113 /* bunny.obj */; };
+		7814AB281DB37F2F0025F113 /* ChessColumn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA611DB378920025F113 /* ChessColumn.tga */; };
+		7814AB291DB37F2F0025F113 /* ChessKing.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA621DB378920025F113 /* ChessKing.obj */; };
+		7814AB2A1DB37F2F0025F113 /* ChessKing.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA631DB378920025F113 /* ChessKing.obj.mtl */; };
+		7814AB2B1DB37F2F0025F113 /* ChessKing.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA641DB378920025F113 /* ChessKing.tga */; };
+		7814AB2C1DB37F2F0025F113 /* ChessPawn.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA651DB378920025F113 /* ChessPawn.obj */; };
+		7814AB2D1DB37F2F0025F113 /* ChessPawn.obj.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA661DB378920025F113 /* ChessPawn.obj.mtl */; };
+		7814AB2E1DB37F2F0025F113 /* ChessPawn.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA671DB378920025F113 /* ChessPawn.tga */; };
+		7814AB2F1DB37F2F0025F113 /* cm_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA681DB378920025F113 /* cm_neg_x.tga */; };
+		7814AB301DB37F2F0025F113 /* cm_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA691DB378920025F113 /* cm_neg_y.tga */; };
+		7814AB311DB37F2F0025F113 /* cm_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6A1DB378920025F113 /* cm_neg_z.tga */; };
+		7814AB321DB37F2F0025F113 /* cm_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6B1DB378920025F113 /* cm_pos_x.tga */; };
+		7814AB331DB37F2F0025F113 /* cm_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6C1DB378920025F113 /* cm_pos_y.tga */; };
+		7814AB341DB37F2F0025F113 /* cm_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6D1DB378930025F113 /* cm_pos_z.tga */; };
+		7814AB351DB37F2F0025F113 /* COPYING.LESSER in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6E1DB378930025F113 /* COPYING.LESSER */; };
+		7814AB361DB37F2F0025F113 /* crate.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA6F1DB378930025F113 /* crate.tga */; };
+		7814AB371DB37F2F0025F113 /* desert.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA701DB378930025F113 /* desert.tga */; };
+		7814AB381DB37F2F0025F113 /* doge2 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA711DB378930025F113 /* doge2 */; };
+		7814AB391DB37F2F0025F113 /* doge2.hdr in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA721DB378930025F113 /* doge2.hdr */; };
+		7814AB3A1DB37F2F0025F113 /* dragon.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA731DB378930025F113 /* dragon.obj */; };
+		7814AB3B1DB37F2F0025F113 /* elephant.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA741DB378930025F113 /* elephant.obj */; };
+		7814AB3C1DB37F2F0025F113 /* four_shapes_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA751DB378930025F113 /* four_shapes_color.tga */; };
+		7814AB3D1DB37F2F0025F113 /* four_shapes_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA761DB378930025F113 /* four_shapes_normal.tga */; };
+		7814AB3E1DB37F2F0025F113 /* grand_canyon_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA771DB378930025F113 /* grand_canyon_color.tga */; };
+		7814AB3F1DB37F2F0025F113 /* grand_canyon_height.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA781DB378930025F113 /* grand_canyon_height.tga */; };
+		7814AB401DB37F2F0025F113 /* grand_canyon_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA791DB378930025F113 /* grand_canyon_normal.tga */; };
+		7814AB411DB37F2F0025F113 /* ice.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7A1DB378930025F113 /* ice.tga */; };
+		7814AB421DB37F2F0025F113 /* libEGL.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7B1DB378930025F113 /* libEGL.dll */; };
+		7814AB431DB37F2F0025F113 /* libGLESv2.dll in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7C1DB378930025F113 /* libGLESv2.dll */; };
+		7814AB441DB37F2F0025F113 /* monkey.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7D1DB378930025F113 /* monkey.obj */; };
+		7814AB451DB37F2F0025F113 /* particle.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7E1DB378930025F113 /* particle.tga */; };
+		7814AB461DB37F2F0025F113 /* README.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA7F1DB378930025F113 /* README.txt */; };
+		7814AB471DB37F2F0025F113 /* rock_color.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA801DB378930025F113 /* rock_color.tga */; };
+		7814AB481DB37F2F0025F113 /* rock_normal.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA811DB378930025F113 /* rock_normal.tga */; };
+		7814AB491DB37F2F0025F113 /* sponza in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA821DB378930025F113 /* sponza */; };
+		7814AB4A1DB37F2F0025F113 /* sponza.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA831DB378930025F113 /* sponza.mtl */; };
+		7814AB4B1DB37F2F0025F113 /* sponza.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA841DB378930025F113 /* sponza.obj */; };
+		7814AB4C1DB37F2F0025F113 /* teapot.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA851DB378930025F113 /* teapot.obj */; };
+		7814AB4D1DB37F2F0025F113 /* three_objects.mtl in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA861DB378930025F113 /* three_objects.mtl */; };
+		7814AB4E1DB37F2F0025F113 /* three_objects.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA871DB378930025F113 /* three_objects.obj */; };
+		7814AB4F1DB37F2F0025F113 /* tiger.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA881DB378930025F113 /* tiger.tga */; };
+		7814AB501DB37F2F0025F113 /* venusm.obj in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA891DB378930025F113 /* venusm.obj */; };
+		7814AB511DB37F2F0025F113 /* water_neg_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8A1DB378930025F113 /* water_neg_x.tga */; };
+		7814AB521DB37F2F0025F113 /* water_neg_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8B1DB378930025F113 /* water_neg_y.tga */; };
+		7814AB531DB37F2F0025F113 /* water_neg_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8C1DB378930025F113 /* water_neg_z.tga */; };
+		7814AB541DB37F2F0025F113 /* water_pos_x.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8D1DB378930025F113 /* water_pos_x.tga */; };
+		7814AB551DB37F2F0025F113 /* water_pos_y.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8E1DB378930025F113 /* water_pos_y.tga */; };
+		7814AB561DB37F2F0025F113 /* water_pos_z.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA8F1DB378930025F113 /* water_pos_z.tga */; };
+		7814AB571DB37F2F0025F113 /* wood_texture.tga in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7814AA901DB378930025F113 /* wood_texture.tga */; };
+		7814AB581DB37F340025F113 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
+		7814AB591DB37F3D0025F113 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54A1D92918F001FAD7A /* Cocoa.framework */; };
+		7814AB5A1DB37F420025F113 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5461D929183001FAD7A /* OpenGL.framework */; };
+		7814AB5B1DB37F460025F113 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5591D92988F001FAD7A /* IOKit.framework */; };
+		7814AB5C1DB37F4D0025F113 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF55B1D92989D001FAD7A /* CoreVideo.framework */; };
+		7814AB5D1DB37F5A0025F113 /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5521D92963D001FAD7A /* libGLEW.a */; };
+		7814AB5E1DB37F800025F113 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF5571D929709001FAD7A /* libglfw3.a */; };
+		7814AB5F1DB37F890025F113 /* libGLUS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78AFF54D1D9293B6001FAD7A /* libGLUS.a */; };
 		781DD7811DAA22F60091D005 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 781DD7801DAA22F60091D005 /* main.cpp */; };
 		781DD7851DAA23030091D005 /* Binaries in CopyFiles */ = {isa = PBXBuildFile; fileRef = 780907E81D979930001CC982 /* Binaries */; };
 		781DD7861DAA23030091D005 /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = 78AFF59A1D92B4C4001FAD7A /* shaders */; };
@@ -499,6 +693,205 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7814AA391DB36EB50025F113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				7814AA491DB36F750025F113 /* Binaries in CopyFiles */,
+				7814AA4A1DB36F750025F113 /* shaders in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AA4D1DB36FC20025F113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				7814AA571DB36FCD0025F113 /* shaders in CopyFiles */,
+				7814AA911DB378930025F113 /* bunny.obj in CopyFiles */,
+				7814AA921DB378930025F113 /* ChessColumn.tga in CopyFiles */,
+				7814AA931DB378930025F113 /* ChessKing.obj in CopyFiles */,
+				7814AA941DB378930025F113 /* ChessKing.obj.mtl in CopyFiles */,
+				7814AA951DB378930025F113 /* ChessKing.tga in CopyFiles */,
+				7814AA961DB378930025F113 /* ChessPawn.obj in CopyFiles */,
+				7814AA971DB378930025F113 /* ChessPawn.obj.mtl in CopyFiles */,
+				7814AA981DB378930025F113 /* ChessPawn.tga in CopyFiles */,
+				7814AA991DB378930025F113 /* cm_neg_x.tga in CopyFiles */,
+				7814AA9A1DB378930025F113 /* cm_neg_y.tga in CopyFiles */,
+				7814AA9B1DB378930025F113 /* cm_neg_z.tga in CopyFiles */,
+				7814AA9C1DB378930025F113 /* cm_pos_x.tga in CopyFiles */,
+				7814AA9D1DB378930025F113 /* cm_pos_y.tga in CopyFiles */,
+				7814AA9E1DB378930025F113 /* cm_pos_z.tga in CopyFiles */,
+				7814AA9F1DB378930025F113 /* COPYING.LESSER in CopyFiles */,
+				7814AAA01DB378930025F113 /* crate.tga in CopyFiles */,
+				7814AAA11DB378930025F113 /* desert.tga in CopyFiles */,
+				7814AAA21DB378930025F113 /* doge2 in CopyFiles */,
+				7814AAA31DB378930025F113 /* doge2.hdr in CopyFiles */,
+				7814AAA41DB378930025F113 /* dragon.obj in CopyFiles */,
+				7814AAA51DB378930025F113 /* elephant.obj in CopyFiles */,
+				7814AAA61DB378930025F113 /* four_shapes_color.tga in CopyFiles */,
+				7814AAA71DB378930025F113 /* four_shapes_normal.tga in CopyFiles */,
+				7814AAA81DB378930025F113 /* grand_canyon_color.tga in CopyFiles */,
+				7814AAA91DB378930025F113 /* grand_canyon_height.tga in CopyFiles */,
+				7814AAAA1DB378930025F113 /* grand_canyon_normal.tga in CopyFiles */,
+				7814AAAB1DB378930025F113 /* ice.tga in CopyFiles */,
+				7814AAAC1DB378930025F113 /* libEGL.dll in CopyFiles */,
+				7814AAAD1DB378930025F113 /* libGLESv2.dll in CopyFiles */,
+				7814AAAE1DB378930025F113 /* monkey.obj in CopyFiles */,
+				7814AAAF1DB378930025F113 /* particle.tga in CopyFiles */,
+				7814AAB01DB378930025F113 /* README.txt in CopyFiles */,
+				7814AAB11DB378930025F113 /* rock_color.tga in CopyFiles */,
+				7814AAB21DB378930025F113 /* rock_normal.tga in CopyFiles */,
+				7814AAB31DB378930025F113 /* sponza in CopyFiles */,
+				7814AAB41DB378930025F113 /* sponza.mtl in CopyFiles */,
+				7814AAB51DB378930025F113 /* sponza.obj in CopyFiles */,
+				7814AAB61DB378930025F113 /* teapot.obj in CopyFiles */,
+				7814AAB71DB378930025F113 /* three_objects.mtl in CopyFiles */,
+				7814AAB81DB378930025F113 /* three_objects.obj in CopyFiles */,
+				7814AAB91DB378930025F113 /* tiger.tga in CopyFiles */,
+				7814AABA1DB378930025F113 /* venusm.obj in CopyFiles */,
+				7814AABB1DB378930025F113 /* water_neg_x.tga in CopyFiles */,
+				7814AABC1DB378930025F113 /* water_neg_y.tga in CopyFiles */,
+				7814AABD1DB378930025F113 /* water_neg_z.tga in CopyFiles */,
+				7814AABE1DB378930025F113 /* water_pos_x.tga in CopyFiles */,
+				7814AABF1DB378930025F113 /* water_pos_y.tga in CopyFiles */,
+				7814AAC01DB378930025F113 /* water_pos_z.tga in CopyFiles */,
+				7814AAC11DB378930025F113 /* wood_texture.tga in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAC51DB37A0A0025F113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				7814AACE1DB37A720025F113 /* Binaries in CopyFiles */,
+				7814AACF1DB37A720025F113 /* shaders in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAD91DB37CFA0025F113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				7814AAEB1DB37EAC0025F113 /* bunny.obj in CopyFiles */,
+				7814AAEC1DB37EAC0025F113 /* ChessColumn.tga in CopyFiles */,
+				7814AAED1DB37EAC0025F113 /* ChessKing.obj in CopyFiles */,
+				7814AAEE1DB37EAC0025F113 /* ChessKing.obj.mtl in CopyFiles */,
+				7814AAEF1DB37EAC0025F113 /* ChessKing.tga in CopyFiles */,
+				7814AAF01DB37EAC0025F113 /* ChessPawn.obj in CopyFiles */,
+				7814AAF11DB37EAC0025F113 /* ChessPawn.obj.mtl in CopyFiles */,
+				7814AAF21DB37EAC0025F113 /* ChessPawn.tga in CopyFiles */,
+				7814AAF31DB37EAC0025F113 /* cm_neg_x.tga in CopyFiles */,
+				7814AAF41DB37EAC0025F113 /* cm_neg_y.tga in CopyFiles */,
+				7814AAF51DB37EAC0025F113 /* cm_neg_z.tga in CopyFiles */,
+				7814AAF61DB37EAC0025F113 /* cm_pos_x.tga in CopyFiles */,
+				7814AAF71DB37EAC0025F113 /* cm_pos_y.tga in CopyFiles */,
+				7814AAF81DB37EAC0025F113 /* cm_pos_z.tga in CopyFiles */,
+				7814AAF91DB37EAC0025F113 /* COPYING.LESSER in CopyFiles */,
+				7814AAFA1DB37EAC0025F113 /* crate.tga in CopyFiles */,
+				7814AAFB1DB37EAC0025F113 /* desert.tga in CopyFiles */,
+				7814AAFC1DB37EAC0025F113 /* doge2 in CopyFiles */,
+				7814AAFD1DB37EAC0025F113 /* doge2.hdr in CopyFiles */,
+				7814AAFE1DB37EAC0025F113 /* dragon.obj in CopyFiles */,
+				7814AAFF1DB37EAC0025F113 /* elephant.obj in CopyFiles */,
+				7814AB001DB37EAC0025F113 /* four_shapes_color.tga in CopyFiles */,
+				7814AB011DB37EAC0025F113 /* four_shapes_normal.tga in CopyFiles */,
+				7814AB021DB37EAC0025F113 /* grand_canyon_color.tga in CopyFiles */,
+				7814AB031DB37EAC0025F113 /* grand_canyon_height.tga in CopyFiles */,
+				7814AB041DB37EAC0025F113 /* grand_canyon_normal.tga in CopyFiles */,
+				7814AB051DB37EAC0025F113 /* ice.tga in CopyFiles */,
+				7814AB061DB37EAC0025F113 /* libEGL.dll in CopyFiles */,
+				7814AB071DB37EAC0025F113 /* libGLESv2.dll in CopyFiles */,
+				7814AB081DB37EAC0025F113 /* monkey.obj in CopyFiles */,
+				7814AB091DB37EAC0025F113 /* particle.tga in CopyFiles */,
+				7814AB0A1DB37EAC0025F113 /* README.txt in CopyFiles */,
+				7814AB0B1DB37EAC0025F113 /* rock_color.tga in CopyFiles */,
+				7814AB0C1DB37EAC0025F113 /* rock_normal.tga in CopyFiles */,
+				7814AB0D1DB37EAC0025F113 /* sponza in CopyFiles */,
+				7814AB0E1DB37EAC0025F113 /* sponza.mtl in CopyFiles */,
+				7814AB0F1DB37EAC0025F113 /* sponza.obj in CopyFiles */,
+				7814AB101DB37EAC0025F113 /* teapot.obj in CopyFiles */,
+				7814AB111DB37EAC0025F113 /* three_objects.mtl in CopyFiles */,
+				7814AB121DB37EAC0025F113 /* three_objects.obj in CopyFiles */,
+				7814AB131DB37EAC0025F113 /* tiger.tga in CopyFiles */,
+				7814AB141DB37EAC0025F113 /* venusm.obj in CopyFiles */,
+				7814AB151DB37EAC0025F113 /* water_neg_x.tga in CopyFiles */,
+				7814AB161DB37EAC0025F113 /* water_neg_y.tga in CopyFiles */,
+				7814AB171DB37EAC0025F113 /* water_neg_z.tga in CopyFiles */,
+				7814AB181DB37EAC0025F113 /* water_pos_x.tga in CopyFiles */,
+				7814AB191DB37EAC0025F113 /* water_pos_y.tga in CopyFiles */,
+				7814AB1A1DB37EAC0025F113 /* water_pos_z.tga in CopyFiles */,
+				7814AB1B1DB37EAC0025F113 /* wood_texture.tga in CopyFiles */,
+				7814AAE31DB37D0B0025F113 /* shaders in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AB1E1DB37F1E0025F113 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				7814AB581DB37F340025F113 /* shaders in CopyFiles */,
+				7814AB271DB37F2F0025F113 /* bunny.obj in CopyFiles */,
+				7814AB281DB37F2F0025F113 /* ChessColumn.tga in CopyFiles */,
+				7814AB291DB37F2F0025F113 /* ChessKing.obj in CopyFiles */,
+				7814AB2A1DB37F2F0025F113 /* ChessKing.obj.mtl in CopyFiles */,
+				7814AB2B1DB37F2F0025F113 /* ChessKing.tga in CopyFiles */,
+				7814AB2C1DB37F2F0025F113 /* ChessPawn.obj in CopyFiles */,
+				7814AB2D1DB37F2F0025F113 /* ChessPawn.obj.mtl in CopyFiles */,
+				7814AB2E1DB37F2F0025F113 /* ChessPawn.tga in CopyFiles */,
+				7814AB2F1DB37F2F0025F113 /* cm_neg_x.tga in CopyFiles */,
+				7814AB301DB37F2F0025F113 /* cm_neg_y.tga in CopyFiles */,
+				7814AB311DB37F2F0025F113 /* cm_neg_z.tga in CopyFiles */,
+				7814AB321DB37F2F0025F113 /* cm_pos_x.tga in CopyFiles */,
+				7814AB331DB37F2F0025F113 /* cm_pos_y.tga in CopyFiles */,
+				7814AB341DB37F2F0025F113 /* cm_pos_z.tga in CopyFiles */,
+				7814AB351DB37F2F0025F113 /* COPYING.LESSER in CopyFiles */,
+				7814AB361DB37F2F0025F113 /* crate.tga in CopyFiles */,
+				7814AB371DB37F2F0025F113 /* desert.tga in CopyFiles */,
+				7814AB381DB37F2F0025F113 /* doge2 in CopyFiles */,
+				7814AB391DB37F2F0025F113 /* doge2.hdr in CopyFiles */,
+				7814AB3A1DB37F2F0025F113 /* dragon.obj in CopyFiles */,
+				7814AB3B1DB37F2F0025F113 /* elephant.obj in CopyFiles */,
+				7814AB3C1DB37F2F0025F113 /* four_shapes_color.tga in CopyFiles */,
+				7814AB3D1DB37F2F0025F113 /* four_shapes_normal.tga in CopyFiles */,
+				7814AB3E1DB37F2F0025F113 /* grand_canyon_color.tga in CopyFiles */,
+				7814AB3F1DB37F2F0025F113 /* grand_canyon_height.tga in CopyFiles */,
+				7814AB401DB37F2F0025F113 /* grand_canyon_normal.tga in CopyFiles */,
+				7814AB411DB37F2F0025F113 /* ice.tga in CopyFiles */,
+				7814AB421DB37F2F0025F113 /* libEGL.dll in CopyFiles */,
+				7814AB431DB37F2F0025F113 /* libGLESv2.dll in CopyFiles */,
+				7814AB441DB37F2F0025F113 /* monkey.obj in CopyFiles */,
+				7814AB451DB37F2F0025F113 /* particle.tga in CopyFiles */,
+				7814AB461DB37F2F0025F113 /* README.txt in CopyFiles */,
+				7814AB471DB37F2F0025F113 /* rock_color.tga in CopyFiles */,
+				7814AB481DB37F2F0025F113 /* rock_normal.tga in CopyFiles */,
+				7814AB491DB37F2F0025F113 /* sponza in CopyFiles */,
+				7814AB4A1DB37F2F0025F113 /* sponza.mtl in CopyFiles */,
+				7814AB4B1DB37F2F0025F113 /* sponza.obj in CopyFiles */,
+				7814AB4C1DB37F2F0025F113 /* teapot.obj in CopyFiles */,
+				7814AB4D1DB37F2F0025F113 /* three_objects.mtl in CopyFiles */,
+				7814AB4E1DB37F2F0025F113 /* three_objects.obj in CopyFiles */,
+				7814AB4F1DB37F2F0025F113 /* tiger.tga in CopyFiles */,
+				7814AB501DB37F2F0025F113 /* venusm.obj in CopyFiles */,
+				7814AB511DB37F2F0025F113 /* water_neg_x.tga in CopyFiles */,
+				7814AB521DB37F2F0025F113 /* water_neg_y.tga in CopyFiles */,
+				7814AB531DB37F2F0025F113 /* water_neg_z.tga in CopyFiles */,
+				7814AB541DB37F2F0025F113 /* water_pos_x.tga in CopyFiles */,
+				7814AB551DB37F2F0025F113 /* water_pos_y.tga in CopyFiles */,
+				7814AB561DB37F2F0025F113 /* water_pos_z.tga in CopyFiles */,
+				7814AB571DB37F2F0025F113 /* wood_texture.tga in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		781DD77C1DAA22F60091D005 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
@@ -595,6 +988,65 @@
 		7814AA261DB36C810025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		7814AA341DB36CEE0025F113 /* wavefront.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wavefront.cpp; sourceTree = "<group>"; };
 		7814AA351DB36CEE0025F113 /* wavefront.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = wavefront.hpp; sourceTree = "<group>"; };
+		7814AA3B1DB36EB50025F113 /* test27 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test27; sourceTree = BUILT_PRODUCTS_DIR; };
+		7814AA3D1DB36EB50025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7814AA4F1DB36FC20025F113 /* test28 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test28; sourceTree = BUILT_PRODUCTS_DIR; };
+		7814AA511DB36FC30025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7814AA601DB378920025F113 /* bunny.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = bunny.obj; path = Binaries/bunny.obj; sourceTree = "<group>"; };
+		7814AA611DB378920025F113 /* ChessColumn.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = ChessColumn.tga; path = Binaries/ChessColumn.tga; sourceTree = "<group>"; };
+		7814AA621DB378920025F113 /* ChessKing.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = ChessKing.obj; path = Binaries/ChessKing.obj; sourceTree = "<group>"; };
+		7814AA631DB378920025F113 /* ChessKing.obj.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; name = ChessKing.obj.mtl; path = Binaries/ChessKing.obj.mtl; sourceTree = "<group>"; };
+		7814AA641DB378920025F113 /* ChessKing.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = ChessKing.tga; path = Binaries/ChessKing.tga; sourceTree = "<group>"; };
+		7814AA651DB378920025F113 /* ChessPawn.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = ChessPawn.obj; path = Binaries/ChessPawn.obj; sourceTree = "<group>"; };
+		7814AA661DB378920025F113 /* ChessPawn.obj.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; name = ChessPawn.obj.mtl; path = Binaries/ChessPawn.obj.mtl; sourceTree = "<group>"; };
+		7814AA671DB378920025F113 /* ChessPawn.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = ChessPawn.tga; path = Binaries/ChessPawn.tga; sourceTree = "<group>"; };
+		7814AA681DB378920025F113 /* cm_neg_x.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_neg_x.tga; path = Binaries/cm_neg_x.tga; sourceTree = "<group>"; };
+		7814AA691DB378920025F113 /* cm_neg_y.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_neg_y.tga; path = Binaries/cm_neg_y.tga; sourceTree = "<group>"; };
+		7814AA6A1DB378920025F113 /* cm_neg_z.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_neg_z.tga; path = Binaries/cm_neg_z.tga; sourceTree = "<group>"; };
+		7814AA6B1DB378920025F113 /* cm_pos_x.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_pos_x.tga; path = Binaries/cm_pos_x.tga; sourceTree = "<group>"; };
+		7814AA6C1DB378920025F113 /* cm_pos_y.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_pos_y.tga; path = Binaries/cm_pos_y.tga; sourceTree = "<group>"; };
+		7814AA6D1DB378930025F113 /* cm_pos_z.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = cm_pos_z.tga; path = Binaries/cm_pos_z.tga; sourceTree = "<group>"; };
+		7814AA6E1DB378930025F113 /* COPYING.LESSER */ = {isa = PBXFileReference; lastKnownFileType = text; name = COPYING.LESSER; path = Binaries/COPYING.LESSER; sourceTree = "<group>"; };
+		7814AA6F1DB378930025F113 /* crate.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = crate.tga; path = Binaries/crate.tga; sourceTree = "<group>"; };
+		7814AA701DB378930025F113 /* desert.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = desert.tga; path = Binaries/desert.tga; sourceTree = "<group>"; };
+		7814AA711DB378930025F113 /* doge2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = doge2; path = Binaries/doge2; sourceTree = "<group>"; };
+		7814AA721DB378930025F113 /* doge2.hdr */ = {isa = PBXFileReference; lastKnownFileType = file; name = doge2.hdr; path = Binaries/doge2.hdr; sourceTree = "<group>"; };
+		7814AA731DB378930025F113 /* dragon.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = dragon.obj; path = Binaries/dragon.obj; sourceTree = "<group>"; };
+		7814AA741DB378930025F113 /* elephant.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = elephant.obj; path = Binaries/elephant.obj; sourceTree = "<group>"; };
+		7814AA751DB378930025F113 /* four_shapes_color.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = four_shapes_color.tga; path = Binaries/four_shapes_color.tga; sourceTree = "<group>"; };
+		7814AA761DB378930025F113 /* four_shapes_normal.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = four_shapes_normal.tga; path = Binaries/four_shapes_normal.tga; sourceTree = "<group>"; };
+		7814AA771DB378930025F113 /* grand_canyon_color.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = grand_canyon_color.tga; path = Binaries/grand_canyon_color.tga; sourceTree = "<group>"; };
+		7814AA781DB378930025F113 /* grand_canyon_height.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = grand_canyon_height.tga; path = Binaries/grand_canyon_height.tga; sourceTree = "<group>"; };
+		7814AA791DB378930025F113 /* grand_canyon_normal.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = grand_canyon_normal.tga; path = Binaries/grand_canyon_normal.tga; sourceTree = "<group>"; };
+		7814AA7A1DB378930025F113 /* ice.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = ice.tga; path = Binaries/ice.tga; sourceTree = "<group>"; };
+		7814AA7B1DB378930025F113 /* libEGL.dll */ = {isa = PBXFileReference; lastKnownFileType = file; name = libEGL.dll; path = Binaries/libEGL.dll; sourceTree = "<group>"; };
+		7814AA7C1DB378930025F113 /* libGLESv2.dll */ = {isa = PBXFileReference; lastKnownFileType = file; name = libGLESv2.dll; path = Binaries/libGLESv2.dll; sourceTree = "<group>"; };
+		7814AA7D1DB378930025F113 /* monkey.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = monkey.obj; path = Binaries/monkey.obj; sourceTree = "<group>"; };
+		7814AA7E1DB378930025F113 /* particle.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = particle.tga; path = Binaries/particle.tga; sourceTree = "<group>"; };
+		7814AA7F1DB378930025F113 /* README.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.txt; path = Binaries/README.txt; sourceTree = "<group>"; };
+		7814AA801DB378930025F113 /* rock_color.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = rock_color.tga; path = Binaries/rock_color.tga; sourceTree = "<group>"; };
+		7814AA811DB378930025F113 /* rock_normal.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = rock_normal.tga; path = Binaries/rock_normal.tga; sourceTree = "<group>"; };
+		7814AA821DB378930025F113 /* sponza */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sponza; path = Binaries/sponza; sourceTree = "<group>"; };
+		7814AA831DB378930025F113 /* sponza.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; name = sponza.mtl; path = Binaries/sponza.mtl; sourceTree = "<group>"; };
+		7814AA841DB378930025F113 /* sponza.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = sponza.obj; path = Binaries/sponza.obj; sourceTree = "<group>"; };
+		7814AA851DB378930025F113 /* teapot.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = teapot.obj; path = Binaries/teapot.obj; sourceTree = "<group>"; };
+		7814AA861DB378930025F113 /* three_objects.mtl */ = {isa = PBXFileReference; lastKnownFileType = text; name = three_objects.mtl; path = Binaries/three_objects.mtl; sourceTree = "<group>"; };
+		7814AA871DB378930025F113 /* three_objects.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = three_objects.obj; path = Binaries/three_objects.obj; sourceTree = "<group>"; };
+		7814AA881DB378930025F113 /* tiger.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = tiger.tga; path = Binaries/tiger.tga; sourceTree = "<group>"; };
+		7814AA891DB378930025F113 /* venusm.obj */ = {isa = PBXFileReference; lastKnownFileType = text; name = venusm.obj; path = Binaries/venusm.obj; sourceTree = "<group>"; };
+		7814AA8A1DB378930025F113 /* water_neg_x.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_neg_x.tga; path = Binaries/water_neg_x.tga; sourceTree = "<group>"; };
+		7814AA8B1DB378930025F113 /* water_neg_y.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_neg_y.tga; path = Binaries/water_neg_y.tga; sourceTree = "<group>"; };
+		7814AA8C1DB378930025F113 /* water_neg_z.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_neg_z.tga; path = Binaries/water_neg_z.tga; sourceTree = "<group>"; };
+		7814AA8D1DB378930025F113 /* water_pos_x.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_pos_x.tga; path = Binaries/water_pos_x.tga; sourceTree = "<group>"; };
+		7814AA8E1DB378930025F113 /* water_pos_y.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_pos_y.tga; path = Binaries/water_pos_y.tga; sourceTree = "<group>"; };
+		7814AA8F1DB378930025F113 /* water_pos_z.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = water_pos_z.tga; path = Binaries/water_pos_z.tga; sourceTree = "<group>"; };
+		7814AA901DB378930025F113 /* wood_texture.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = wood_texture.tga; path = Binaries/wood_texture.tga; sourceTree = "<group>"; };
+		7814AAC71DB37A0A0025F113 /* test29 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test29; sourceTree = BUILT_PRODUCTS_DIR; };
+		7814AAC91DB37A0A0025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7814AADB1DB37CFA0025F113 /* test30 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test30; sourceTree = BUILT_PRODUCTS_DIR; };
+		7814AADD1DB37CFA0025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7814AB201DB37F1E0025F113 /* test31 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test31; sourceTree = BUILT_PRODUCTS_DIR; };
+		7814AB221DB37F1E0025F113 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		781DD77E1DAA22F60091D005 /* test20 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test20; sourceTree = BUILT_PRODUCTS_DIR; };
 		781DD7801DAA22F60091D005 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		781DD78E1DAA23A50091D005 /* wavefront.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wavefront.cpp; sourceTree = "<group>"; };
@@ -919,6 +1371,76 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7814AA381DB36EB50025F113 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AA481DB36EEF0025F113 /* libGLUS.a in Frameworks */,
+				7814AA471DB36EE70025F113 /* libglfw3.a in Frameworks */,
+				7814AA461DB36EDE0025F113 /* libGLEW.a in Frameworks */,
+				7814AA451DB36ED40025F113 /* IOKit.framework in Frameworks */,
+				7814AA441DB36ECF0025F113 /* CoreVideo.framework in Frameworks */,
+				7814AA431DB36ECB0025F113 /* OpenGL.framework in Frameworks */,
+				7814AA421DB36EC50025F113 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AA4C1DB36FC20025F113 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AA5E1DB370070025F113 /* libGLUS.a in Frameworks */,
+				7814AA5D1DB36FFF0025F113 /* libglfw3.a in Frameworks */,
+				7814AA5C1DB36FF80025F113 /* libGLEW.a in Frameworks */,
+				7814AA5B1DB36FEE0025F113 /* Cocoa.framework in Frameworks */,
+				7814AA5A1DB36FE00025F113 /* IOKit.framework in Frameworks */,
+				7814AA591DB36FDB0025F113 /* CoreVideo.framework in Frameworks */,
+				7814AA581DB36FD70025F113 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAC41DB37A0A0025F113 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AAD61DB37AE40025F113 /* libGLUS.a in Frameworks */,
+				7814AAD51DB37AD40025F113 /* libglfw3.a in Frameworks */,
+				7814AAD41DB37ACB0025F113 /* libGLEW.a in Frameworks */,
+				7814AAD31DB37AC10025F113 /* Cocoa.framework in Frameworks */,
+				7814AAD21DB37AB40025F113 /* IOKit.framework in Frameworks */,
+				7814AAD11DB37AAF0025F113 /* CoreVideo.framework in Frameworks */,
+				7814AAD01DB37AA80025F113 /* OpenGL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAD81DB37CFA0025F113 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AAEA1DB37D400025F113 /* libGLUS.a in Frameworks */,
+				7814AAE91DB37D370025F113 /* libglfw3.a in Frameworks */,
+				7814AAE81DB37D2E0025F113 /* libGLEW.a in Frameworks */,
+				7814AAE71DB37D240025F113 /* OpenGL.framework in Frameworks */,
+				7814AAE61DB37D1E0025F113 /* CoreVideo.framework in Frameworks */,
+				7814AAE51DB37D160025F113 /* IOKit.framework in Frameworks */,
+				7814AAE41DB37D120025F113 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AB1D1DB37F1E0025F113 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AB5F1DB37F890025F113 /* libGLUS.a in Frameworks */,
+				7814AB5E1DB37F800025F113 /* libglfw3.a in Frameworks */,
+				7814AB5D1DB37F5A0025F113 /* libGLEW.a in Frameworks */,
+				7814AB5C1DB37F4D0025F113 /* CoreVideo.framework in Frameworks */,
+				7814AB5B1DB37F460025F113 /* IOKit.framework in Frameworks */,
+				7814AB5A1DB37F420025F113 /* OpenGL.framework in Frameworks */,
+				7814AB591DB37F3D0025F113 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		781DD77B1DAA22F60091D005 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1154,6 +1676,102 @@
 			path = test26;
 			sourceTree = "<group>";
 		};
+		7814AA3C1DB36EB50025F113 /* test27 */ = {
+			isa = PBXGroup;
+			children = (
+				7814AA3D1DB36EB50025F113 /* main.cpp */,
+			);
+			path = test27;
+			sourceTree = "<group>";
+		};
+		7814AA501DB36FC20025F113 /* test28 */ = {
+			isa = PBXGroup;
+			children = (
+				7814AA511DB36FC30025F113 /* main.cpp */,
+			);
+			path = test28;
+			sourceTree = "<group>";
+		};
+		7814AAC21DB378A20025F113 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				7814AA601DB378920025F113 /* bunny.obj */,
+				7814AA611DB378920025F113 /* ChessColumn.tga */,
+				7814AA621DB378920025F113 /* ChessKing.obj */,
+				7814AA631DB378920025F113 /* ChessKing.obj.mtl */,
+				7814AA641DB378920025F113 /* ChessKing.tga */,
+				7814AA651DB378920025F113 /* ChessPawn.obj */,
+				7814AA661DB378920025F113 /* ChessPawn.obj.mtl */,
+				7814AA671DB378920025F113 /* ChessPawn.tga */,
+				7814AA681DB378920025F113 /* cm_neg_x.tga */,
+				7814AA691DB378920025F113 /* cm_neg_y.tga */,
+				7814AA6A1DB378920025F113 /* cm_neg_z.tga */,
+				7814AA6B1DB378920025F113 /* cm_pos_x.tga */,
+				7814AA6C1DB378920025F113 /* cm_pos_y.tga */,
+				7814AA6D1DB378930025F113 /* cm_pos_z.tga */,
+				7814AA6E1DB378930025F113 /* COPYING.LESSER */,
+				7814AA6F1DB378930025F113 /* crate.tga */,
+				7814AA701DB378930025F113 /* desert.tga */,
+				7814AA711DB378930025F113 /* doge2 */,
+				7814AA721DB378930025F113 /* doge2.hdr */,
+				7814AA731DB378930025F113 /* dragon.obj */,
+				7814AA741DB378930025F113 /* elephant.obj */,
+				7814AA751DB378930025F113 /* four_shapes_color.tga */,
+				7814AA761DB378930025F113 /* four_shapes_normal.tga */,
+				7814AA771DB378930025F113 /* grand_canyon_color.tga */,
+				7814AA781DB378930025F113 /* grand_canyon_height.tga */,
+				7814AA791DB378930025F113 /* grand_canyon_normal.tga */,
+				7814AA7A1DB378930025F113 /* ice.tga */,
+				7814AA7B1DB378930025F113 /* libEGL.dll */,
+				7814AA7C1DB378930025F113 /* libGLESv2.dll */,
+				7814AA7D1DB378930025F113 /* monkey.obj */,
+				7814AA7E1DB378930025F113 /* particle.tga */,
+				7814AA7F1DB378930025F113 /* README.txt */,
+				7814AA801DB378930025F113 /* rock_color.tga */,
+				7814AA811DB378930025F113 /* rock_normal.tga */,
+				7814AA821DB378930025F113 /* sponza */,
+				7814AA831DB378930025F113 /* sponza.mtl */,
+				7814AA841DB378930025F113 /* sponza.obj */,
+				7814AA851DB378930025F113 /* teapot.obj */,
+				7814AA861DB378930025F113 /* three_objects.mtl */,
+				7814AA871DB378930025F113 /* three_objects.obj */,
+				7814AA881DB378930025F113 /* tiger.tga */,
+				7814AA891DB378930025F113 /* venusm.obj */,
+				7814AA8A1DB378930025F113 /* water_neg_x.tga */,
+				7814AA8B1DB378930025F113 /* water_neg_y.tga */,
+				7814AA8C1DB378930025F113 /* water_neg_z.tga */,
+				7814AA8D1DB378930025F113 /* water_pos_x.tga */,
+				7814AA8E1DB378930025F113 /* water_pos_y.tga */,
+				7814AA8F1DB378930025F113 /* water_pos_z.tga */,
+				7814AA901DB378930025F113 /* wood_texture.tga */,
+			);
+			name = assets;
+			sourceTree = "<group>";
+		};
+		7814AAC81DB37A0A0025F113 /* test29 */ = {
+			isa = PBXGroup;
+			children = (
+				7814AAC91DB37A0A0025F113 /* main.cpp */,
+			);
+			path = test29;
+			sourceTree = "<group>";
+		};
+		7814AADC1DB37CFA0025F113 /* test30 */ = {
+			isa = PBXGroup;
+			children = (
+				7814AADD1DB37CFA0025F113 /* main.cpp */,
+			);
+			path = test30;
+			sourceTree = "<group>";
+		};
+		7814AB211DB37F1E0025F113 /* test31 */ = {
+			isa = PBXGroup;
+			children = (
+				7814AB221DB37F1E0025F113 /* main.cpp */,
+			);
+			path = test31;
+			sourceTree = "<group>";
+		};
 		781DD77F1DAA22F60091D005 /* test20 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1183,6 +1801,7 @@
 		78AFF5321D92910A001FAD7A = {
 			isa = PBXGroup;
 			children = (
+				7814AAC21DB378A20025F113 /* assets */,
 				780907E81D979930001CC982 /* Binaries */,
 				78AFF59A1D92B4C4001FAD7A /* shaders */,
 				78AFF58B1D92AD8F001FAD7A /* libs */,
@@ -1211,6 +1830,11 @@
 				7814A9FD1DB365BC0025F113 /* test24 */,
 				7814AA111DB366C00025F113 /* test25 */,
 				7814AA251DB36C810025F113 /* test26 */,
+				7814AA3C1DB36EB50025F113 /* test27 */,
+				7814AA501DB36FC20025F113 /* test28 */,
+				7814AAC81DB37A0A0025F113 /* test29 */,
+				7814AADC1DB37CFA0025F113 /* test30 */,
+				7814AB211DB37F1E0025F113 /* test31 */,
 				78AFF53C1D92910A001FAD7A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1243,6 +1867,11 @@
 				7814A9FC1DB365BC0025F113 /* test24 */,
 				7814AA101DB366C00025F113 /* test25 */,
 				7814AA241DB36C810025F113 /* test26 */,
+				7814AA3B1DB36EB50025F113 /* test27 */,
+				7814AA4F1DB36FC20025F113 /* test28 */,
+				7814AAC71DB37A0A0025F113 /* test29 */,
+				7814AADB1DB37CFA0025F113 /* test30 */,
+				7814AB201DB37F1E0025F113 /* test31 */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1635,6 +2264,91 @@
 			productReference = 7814AA241DB36C810025F113 /* test26 */;
 			productType = "com.apple.product-type.tool";
 		};
+		7814AA3A1DB36EB50025F113 /* test27 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7814AA3F1DB36EB50025F113 /* Build configuration list for PBXNativeTarget "test27" */;
+			buildPhases = (
+				7814AA371DB36EB50025F113 /* Sources */,
+				7814AA381DB36EB50025F113 /* Frameworks */,
+				7814AA391DB36EB50025F113 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test27;
+			productName = test27;
+			productReference = 7814AA3B1DB36EB50025F113 /* test27 */;
+			productType = "com.apple.product-type.tool";
+		};
+		7814AA4E1DB36FC20025F113 /* test28 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7814AA531DB36FC30025F113 /* Build configuration list for PBXNativeTarget "test28" */;
+			buildPhases = (
+				7814AA4B1DB36FC20025F113 /* Sources */,
+				7814AA4C1DB36FC20025F113 /* Frameworks */,
+				7814AA4D1DB36FC20025F113 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test28;
+			productName = test28;
+			productReference = 7814AA4F1DB36FC20025F113 /* test28 */;
+			productType = "com.apple.product-type.tool";
+		};
+		7814AAC61DB37A0A0025F113 /* test29 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7814AACB1DB37A0A0025F113 /* Build configuration list for PBXNativeTarget "test29" */;
+			buildPhases = (
+				7814AAC31DB37A0A0025F113 /* Sources */,
+				7814AAC41DB37A0A0025F113 /* Frameworks */,
+				7814AAC51DB37A0A0025F113 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test29;
+			productName = test29;
+			productReference = 7814AAC71DB37A0A0025F113 /* test29 */;
+			productType = "com.apple.product-type.tool";
+		};
+		7814AADA1DB37CFA0025F113 /* test30 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7814AADF1DB37CFA0025F113 /* Build configuration list for PBXNativeTarget "test30" */;
+			buildPhases = (
+				7814AAD71DB37CFA0025F113 /* Sources */,
+				7814AAD81DB37CFA0025F113 /* Frameworks */,
+				7814AAD91DB37CFA0025F113 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test30;
+			productName = test30;
+			productReference = 7814AADB1DB37CFA0025F113 /* test30 */;
+			productType = "com.apple.product-type.tool";
+		};
+		7814AB1F1DB37F1E0025F113 /* test31 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7814AB241DB37F1E0025F113 /* Build configuration list for PBXNativeTarget "test31" */;
+			buildPhases = (
+				7814AB1C1DB37F1E0025F113 /* Sources */,
+				7814AB1D1DB37F1E0025F113 /* Frameworks */,
+				7814AB1E1DB37F1E0025F113 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test31;
+			productName = test31;
+			productReference = 7814AB201DB37F1E0025F113 /* test31 */;
+			productType = "com.apple.product-type.tool";
+		};
 		781DD77D1DAA22F60091D005 /* test20 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 781DD7841DAA22F60091D005 /* Build configuration list for PBXNativeTarget "test20" */;
@@ -1779,6 +2493,26 @@
 						CreatedOnToolsVersion = 8.0;
 						ProvisioningStyle = Automatic;
 					};
+					7814AA3A1DB36EB50025F113 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					7814AA4E1DB36FC20025F113 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					7814AAC61DB37A0A0025F113 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					7814AADA1DB37CFA0025F113 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
+					7814AB1F1DB37F1E0025F113 = {
+						CreatedOnToolsVersion = 8.0;
+						ProvisioningStyle = Automatic;
+					};
 					781DD77D1DAA22F60091D005 = {
 						CreatedOnToolsVersion = 6.4;
 					};
@@ -1830,6 +2564,11 @@
 				7814A9FB1DB365BC0025F113 /* test24 */,
 				7814AA0F1DB366C00025F113 /* test25 */,
 				7814AA231DB36C810025F113 /* test26 */,
+				7814AA3A1DB36EB50025F113 /* test27 */,
+				7814AA4E1DB36FC20025F113 /* test28 */,
+				7814AAC61DB37A0A0025F113 /* test29 */,
+				7814AADA1DB37CFA0025F113 /* test30 */,
+				7814AB1F1DB37F1E0025F113 /* test31 */,
 			);
 		};
 /* End PBXProject section */
@@ -2003,6 +2742,46 @@
 			files = (
 				7814AA361DB36CEE0025F113 /* wavefront.cpp in Sources */,
 				7814AA271DB36C810025F113 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AA371DB36EB50025F113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AA3E1DB36EB50025F113 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AA4B1DB36FC20025F113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AA521DB36FC30025F113 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAC31DB37A0A0025F113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AACA1DB37A0A0025F113 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AAD71DB37CFA0025F113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AADE1DB37CFA0025F113 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7814AB1C1DB37F1E0025F113 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7814AB231DB37F1E0025F113 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2704,6 +3483,151 @@
 			};
 			name = Release;
 		};
+		7814AA401DB36EB50025F113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7814AA411DB36EB50025F113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7814AA541DB36FC30025F113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7814AA551DB36FC30025F113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7814AACC1DB37A0A0025F113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7814AACD1DB37A0A0025F113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7814AAE01DB37CFA0025F113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7814AAE11DB37CFA0025F113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		7814AB251DB37F1E0025F113 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				ENABLE_TESTABILITY = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7814AB261DB37F1E0025F113 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		781DD7821DAA22F60091D005 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3108,6 +4032,46 @@
 			buildConfigurations = (
 				7814AA291DB36C810025F113 /* Debug */,
 				7814AA2A1DB36C810025F113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7814AA3F1DB36EB50025F113 /* Build configuration list for PBXNativeTarget "test27" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7814AA401DB36EB50025F113 /* Debug */,
+				7814AA411DB36EB50025F113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7814AA531DB36FC30025F113 /* Build configuration list for PBXNativeTarget "test28" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7814AA541DB36FC30025F113 /* Debug */,
+				7814AA551DB36FC30025F113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7814AACB1DB37A0A0025F113 /* Build configuration list for PBXNativeTarget "test29" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7814AACC1DB37A0A0025F113 /* Debug */,
+				7814AACD1DB37A0A0025F113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7814AADF1DB37CFA0025F113 /* Build configuration list for PBXNativeTarget "test30" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7814AAE01DB37CFA0025F113 /* Debug */,
+				7814AAE11DB37CFA0025F113 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		7814AB241DB37F1E0025F113 /* Build configuration list for PBXNativeTarget "test31" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7814AB251DB37F1E0025F113 /* Debug */,
+				7814AB261DB37F1E0025F113 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

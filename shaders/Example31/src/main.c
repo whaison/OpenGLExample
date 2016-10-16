@@ -1,5 +1,5 @@
 /**
- * OpenGL 4 - Example 31
+ * OpenGL 3 - Example 34
  *
  * @author	Norbert Nopper norbert@nopper.tv
  *
@@ -12,80 +12,38 @@
 
 #include "GL/glus.h"
 
-#define TEXTURE_WIDTH 1024
-#define TEXTURE_HEIGHT 768
-
-#define OBJECTS_COLUMNS 16
-
-#define POINT_LIGHT_COUNT 16
-#define POINT_LIGHT_RADIUS 2.0f
+/**
+ * Width of the viewport, needed to reset from framebuffer.
+ */
+static GLUSuint g_width;
 
 /**
- * Properties of the material, basically all the color factors without the emissive and ambient color component.
+ * Height of the viewport.
  */
-struct MaterialProperties
-{
-	GLfloat diffuseColor[4];
-	GLfloat specularColor[4];
-	GLfloat specularExponent;
-};
+static GLUSuint g_height;
+
+static GLUSfloat g_cameraPosition[3] = { 0.0f, 0.0f, 3.0f };
+
+static GLUSfloat g_lightPosition[3] = { 2.0f, 2.0f, 3.0f };
+
+static GLUSfloat g_near = 1.0f;
+
+static GLUSfloat g_far = 100.0f;
+
+static GLUSfloat g_wrap = 0.1f;
+
+static GLUSfloat g_scatterWidth = 0.5f;
+
+static GLUSfloat g_scatterFalloff = 5.0f;
 
 /**
- * Locations for the material properties. With a diffuse texture.
+ * Matrix, to convert from scene world space to depth pass projection space.
  */
-struct MaterialLocations
-{
-	GLint diffuseColorLocation;
-	GLint specularColorLocation;
-	GLint specularExponentLocation;
+static GLfloat g_depthPassMatrix[16];
 
-	GLint diffuseTextureLocation;
-};
+static GLUSprogram g_program;
 
-static GLfloat g_projectionMatrix[16];
-
-static GLfloat g_positionMatrix[16];
-
-static GLfloat g_directionMatrix[16];
-
-//
-//
-//
-
-static GLUSprogram g_programPointLight;
-
-static GLint g_projectionMatrixPointLightLocation;
-
-static GLint g_viewMatrixPointLightLocation;
-
-static GLint g_modelMatrixPointLightLocation;
-
-static GLint g_positionMatrixPointLightLocation;
-
-static GLint g_biasMatrixPointLightLocation;
-
-static GLint g_radiusPointLightLocation;
-
-static GLint g_diffusePointLightLocation;
-static GLint g_specularPointLightLocation;
-static GLint g_positionPointLightLocation;
-static GLint g_normalPointLightLocation;
-
-static GLint g_vertexPointLightLocation;
-
-static GLuint g_verticesPointLightVBO;
-
-static GLuint g_indicesPointLightVBO;
-
-static GLuint g_vaoPointLight;
-
-static GLuint g_numberIndicesPointLight;
-
-//
-//
-//
-
-static GLUSprogram g_programDeferredShading;
+static GLint g_depthPassMatrixLocation;
 
 static GLint g_projectionMatrixLocation;
 
@@ -95,715 +53,457 @@ static GLint g_modelMatrixLocation;
 
 static GLint g_normalMatrixLocation;
 
+static GLint g_depthPassTextureLocation;
+
+static GLint g_lightDirectionLocation;
+
+static GLint g_diffuseColorLocation;
+
+static GLint g_scatterColorLocation;
+
+static GLint g_nearFarLocation;
+
+static GLint g_wrapLocation;
+
+static GLint g_scatterWidthLocation;
+
+static GLint g_scatterFalloffLocation;
+
 static GLint g_vertexLocation;
 
 static GLint g_normalLocation;
 
-static GLint g_texCoordLocation;
-
-static GLint g_useTextureLocation;
-
-/**
- * The locations for the material properties.
- */
-static struct MaterialLocations g_material;
-
-/**
- * This structure contains the loaded wavefront object file.
- */
-static GLUSwavefront g_wavefront;
-
-//
-// Textures and buffers for deferred shading
 //
 
-static GLuint g_dsDiffuseTexture;
+static GLUSprogram g_programDepthPass;
 
-static GLuint g_dsSpecularTexture;
+static GLint g_projectionMatrixDepthPassLocation;
+
+static GLint g_modelViewMatrixDepthPassLocation;
+
+static GLint g_vertexDepthPassLocation;
+
+//
+
+static GLuint g_verticesVBO;
+
+static GLuint g_normalsVBO;
+
+//
+
+static GLuint g_vao;
+
+static GLuint g_vaoDepthPass;
+
+//
+
+static GLuint g_numberVertices;
+
+//
 
 /**
- * The specular exponent is stored into w of the position texture.
+ * The pepth pass texture size.
  */
-static GLuint g_dsPositionTexture;
+static const GLuint g_depthPassTextureSize = 4096;
 
-static GLuint g_dsNormalTexture;
+/**
+ * The depth pass texture.
+ */
+static GLuint g_depthPassTexture;
 
-static GLuint g_dsDepthTexture;
-
-static GLuint g_dsFBO;
+/**
+ * The frame buffer object for the depth pass texture.
+ */
+static GLuint g_fbo;
 
 GLUSboolean init(GLUSvoid)
 {
-	GLUStextfile vertexSource;
-	GLUStextfile fragmentSource;
+    GLUSshape wavefrontObj;
 
-	GLUStgaimage image;
+    GLUStextfile vertexSource;
+    GLUStextfile fragmentSource;
 
-	GLUSgroupList* groupWalker;
-	GLUSmaterialList* materialWalker;
+    GLfloat viewMatrix[16];
 
-	GLUSshape sphere;
+    GLfloat lightDirection[3];
 
-	//
-	// Each point light is rendered as a sphere.
-	//
+    lightDirection[0] = g_lightPosition[0];
+    lightDirection[1] = g_lightPosition[1];
+    lightDirection[2] = g_lightPosition[2];
 
-	glusFileLoadText("../Example31/shader/point_light.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example31/shader/point_light.frag.glsl", &fragmentSource);
+    glusVector3Normalizef(lightDirection);
 
-	glusProgramBuildFromSource(&g_programPointLight, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
+    //
 
-	glusFileDestroyText(&vertexSource);
-	glusFileDestroyText(&fragmentSource);
+    glusFileLoadText("../Example34/shader/renderdepthmap.vert.glsl", &vertexSource);
+    glusFileLoadText("../Example34/shader/renderdepthmap.frag.glsl", &fragmentSource);
 
-	//
+    glusProgramBuildFromSource(&g_programDepthPass, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
-	g_projectionMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_projectionMatrix");
-	g_viewMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_viewMatrix");
-	g_modelMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_modelMatrix");
-	g_positionMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_positionMatrix");
-	g_biasMatrixPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_biasMatrix");
-	g_radiusPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_lightRadius");
+    glusFileDestroyText(&vertexSource);
+    glusFileDestroyText(&fragmentSource);
 
-	g_diffusePointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_diffuse");
-	g_specularPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_specular");
-	g_positionPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_position");
-	g_normalPointLightLocation = glGetUniformLocation(g_programPointLight.program, "u_normal");
+    //
 
-	g_vertexPointLightLocation = glGetAttribLocation(g_programPointLight.program, "a_vertex");
+    glusFileLoadText("../Example34/shader/subsurfacescattering.vert.glsl", &vertexSource);
+    glusFileLoadText("../Example34/shader/subsurfacescattering.frag.glsl", &fragmentSource);
 
-	// Use a helper function to create a cube.
-	glusShapeCreateSpheref(&sphere, POINT_LIGHT_RADIUS, 32);
+    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
 
-	g_numberIndicesPointLight = sphere.numberIndices;
+    glusFileDestroyText(&vertexSource);
+    glusFileDestroyText(&fragmentSource);
 
-	glGenBuffers(1, &g_verticesPointLightVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, g_verticesPointLightVBO);
+    //
 
-	// Transfer the vertices from CPU to GPU.
-	glBufferData(GL_ARRAY_BUFFER, sphere.numberVertices * 4 * sizeof(GLfloat), (GLfloat*)sphere.vertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    g_projectionMatrixDepthPassLocation = glGetUniformLocation(g_programDepthPass.program, "u_projectionMatrix");
+    g_modelViewMatrixDepthPassLocation = glGetUniformLocation(g_programDepthPass.program, "u_modelViewMatrix");
+    g_vertexDepthPassLocation = glGetAttribLocation(g_programDepthPass.program, "a_vertex");
 
-	glGenBuffers(1, &g_indicesPointLightVBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesPointLightVBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphere.numberIndices * sizeof(GLuint), (GLuint*)sphere.indices, GL_STATIC_DRAW);
+    //
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+    g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+    g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+    g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+    g_depthPassMatrixLocation = glGetUniformLocation(g_program.program, "u_depthPassMatrix");
+    g_diffuseColorLocation = glGetUniformLocation(g_program.program, "u_diffuseColor");
+    g_scatterColorLocation = glGetUniformLocation(g_program.program, "u_scatterColor");
+    g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
+    g_depthPassTextureLocation = glGetUniformLocation(g_program.program, "u_depthPassTexture");
+    g_nearFarLocation = glGetUniformLocation(g_program.program, "u_nearFar");
+    g_wrapLocation = glGetUniformLocation(g_program.program, "u_wrap");
+    g_scatterWidthLocation = glGetUniformLocation(g_program.program, "u_scatterWidth");
+    g_scatterFalloffLocation = glGetUniformLocation(g_program.program, "u_scatterFalloff");
 
-	glusShapeDestroyf(&sphere);
 
-	glGenVertexArrays(1, &g_vaoPointLight);
-	glBindVertexArray(g_vaoPointLight);
+    g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
+    g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
 
-	glBindBuffer(GL_ARRAY_BUFFER, g_verticesPointLightVBO);
-	glVertexAttribPointer(g_vertexPointLightLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(g_vertexPointLightLocation);
+    //
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesPointLightVBO);
+    glGenTextures(1, &g_depthPassTexture);
+    glBindTexture(GL_TEXTURE_2D, g_depthPassTexture);
 
-	glBindVertexArray(0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32F, g_depthPassTextureSize, g_depthPassTextureSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 
-	//
-	// The point lights are moving forth and back between the columns and rows.
-	// Here, a random position and moving direction of the point light is generated.
-	//
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	glusRandomSetSeed(13);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-	// Note: If more than 16 lights are used, make sure to store them in another matrix or buffer.
-	for (GLint i = 0; i < POINT_LIGHT_COUNT; i++)
-	{
-		g_positionMatrix[i] = glusRandomUniformf(0.0f, (float)POINT_LIGHT_COUNT - 2.0f);
+    //
 
-		g_directionMatrix[i] = rand() % 2 == 0 ? 1.0f : -1.0f;
-	}
+    glGenFramebuffers(1, &g_fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, g_fbo);
 
-	//
-	//
-	//
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
 
-	glusFileLoadText("../Example31/shader/deferred_shading.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example31/shader/deferred_shading.frag.glsl", &fragmentSource);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_depthPassTexture, 0);
 
-	glusProgramBuildFromSource(&g_programDeferredShading, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
 
-	glusFileDestroyText(&vertexSource);
-	glusFileDestroyText(&fragmentSource);
+        return GLUS_FALSE;
+    }
 
-	//
+    glClearDepth(1.0f);
 
-	g_projectionMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_projectionMatrix");
-	g_viewMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_viewMatrix");
-	g_modelMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_modelMatrix");
-	g_normalMatrixLocation = glGetUniformLocation(g_programDeferredShading.program, "u_normalMatrix");
+    glEnable(GL_DEPTH_TEST);
 
-	g_material.diffuseColorLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.diffuseColor");
-	g_material.specularColorLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.specularColor");
-	g_material.specularExponentLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.specularExponent");
-	g_material.diffuseTextureLocation = glGetUniformLocation(g_programDeferredShading.program, "u_material.diffuseTexture");
+    glEnable(GL_CULL_FACE);
 
-	g_useTextureLocation = glGetUniformLocation(g_programDeferredShading.program, "u_useTexture");
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	g_vertexLocation = glGetAttribLocation(g_programDeferredShading.program, "a_vertex");
-	g_normalLocation = glGetAttribLocation(g_programDeferredShading.program, "a_normal");
-	g_texCoordLocation = glGetAttribLocation(g_programDeferredShading.program, "a_texCoord");
+    //
 
-	//
-	// Use a helper function to load the wavefront object file.
-	//
+    // Use a helper function to load an wavefront object file.
+    glusShapeLoadWavefront("dragon.obj", &wavefrontObj);
 
-	glusWavefrontLoad("ChessPawn.obj", &g_wavefront);
+    g_numberVertices = wavefrontObj.numberVertices;
 
-	glGenBuffers(1, &g_wavefront.verticesVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 4 * sizeof(GLfloat), (GLfloat*)g_wavefront.vertices, GL_STATIC_DRAW);
+    glGenBuffers(1, &g_verticesVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+    glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) wavefrontObj.vertices, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &g_wavefront.normalsVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.normalsVBO);
-	glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 3 * sizeof(GLfloat), (GLfloat*)g_wavefront.normals, GL_STATIC_DRAW);
+    glGenBuffers(1, &g_normalsVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+    glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat*) wavefrontObj.normals, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &g_wavefront.texCoordsVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.texCoordsVBO);
-	glBufferData(GL_ARRAY_BUFFER, g_wavefront.numberVertices * 2 * sizeof(GLfloat), (GLfloat*)g_wavefront.texCoords, GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glusShapeDestroyf(&wavefrontObj);
 
-	//
-	// Set up indices and the VAOs for each group
-	//
+    //
 
-	glUseProgram(g_programDeferredShading.program);
+    glUseProgram(g_program.program);
 
-	groupWalker = g_wavefront.groups;
-	while (groupWalker)
-	{
-		glGenBuffers(1, &groupWalker->group.indicesVBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.numberIndices * sizeof(GLuint), (GLuint*)groupWalker->group.indices, GL_STATIC_DRAW);
+    glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glusMatrix4x4MultiplyVector3f(lightDirection, viewMatrix, lightDirection);
 
-		//
+    glUniform3fv(g_lightDirectionLocation, 1, lightDirection);
 
-		glGenVertexArrays(1, &groupWalker->group.vao);
-		glBindVertexArray(groupWalker->group.vao);
+    glUniform1i(g_depthPassTextureLocation, 0);
 
-		glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.verticesVBO);
-		glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(g_vertexLocation);
+    // Dragon
 
-		glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.normalsVBO);
-		glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(g_normalLocation);
+    glGenVertexArrays(1, &g_vao);
+    glBindVertexArray(g_vao);
 
-		glBindBuffer(GL_ARRAY_BUFFER, g_wavefront.texCoordsVBO);
-		glVertexAttribPointer(g_texCoordLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(g_texCoordLocation);
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+    glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_vertexLocation);
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+    glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_normalLocation);
 
-		glBindVertexArray(0);
+    //
 
-		groupWalker = groupWalker->next;
-	}
+    glUseProgram(g_programDepthPass.program);
 
-	//
-	// Load the textures, if there are available
-	//
+    // Dragon
 
-	materialWalker = g_wavefront.materials;
-	while (materialWalker)
-	{
-		if (materialWalker->material.diffuseTextureFilename[0] != '\0')
-		{
-			// Load the image.
-			glusImageLoadTga(materialWalker->material.diffuseTextureFilename, &image);
+    glGenVertexArrays(1, &g_vaoDepthPass);
+    glBindVertexArray(g_vaoDepthPass);
 
-			// Generate and bind a texture.
-			glGenTextures(1, &materialWalker->material.diffuseTextureName);
-			glBindTexture(GL_TEXTURE_2D, materialWalker->material.diffuseTextureName);
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+    glVertexAttribPointer(g_vertexDepthPassLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_vertexDepthPassLocation);
 
-			// Transfer the image data from the CPU to the GPU.
-			glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+    //
 
-			// Setting the texture parameters.
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-			glGenerateMipmap(GL_TEXTURE_2D);
+    glClearDepth(1.0f);
 
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
+    glEnable(GL_DEPTH_TEST);
 
-		materialWalker = materialWalker->next;
-	}
+    glEnable(GL_CULL_FACE);
 
-	//
-	// Setting up the deferred shading geometry buffer.
-	//
-
-	glGenTextures(1, &g_dsDiffuseTexture);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_dsDiffuseTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//
-
-	glGenTextures(1, &g_dsSpecularTexture);
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, g_dsSpecularTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//
-
-	glGenTextures(1, &g_dsPositionTexture);
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_dsPositionTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGBA, GL_FLOAT, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//
-
-	glGenTextures(1, &g_dsNormalTexture);
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, g_dsNormalTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB32F, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_RGB, GL_FLOAT, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//
-
-	glGenTextures(1, &g_dsDepthTexture);
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, g_dsDepthTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, TEXTURE_WIDTH, TEXTURE_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glActiveTexture(GL_TEXTURE0);
-
-	//
-
-	glGenFramebuffers(1, &g_dsFBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, g_dsFBO);
-
-	// Attach the color buffer ...
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, g_dsDiffuseTexture, 0);
-
-	// Attach the normal buffer ...
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, g_dsSpecularTexture, 0);
-
-	// Attach the color buffer ...
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, g_dsPositionTexture, 0);
-
-	// Attach the normal buffer ...
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, g_dsNormalTexture, 0);
-
-	// ... and the depth buffer,
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, g_dsDepthTexture, 0);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		printf("GL_FRAMEBUFFER_COMPLETE error 0x%x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-
-		return GLUS_FALSE;
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	//
-	//
-	//
-
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-	glClearDepth(1.0f);
-
-	glEnable(GL_DEPTH_TEST);
-
-	glEnable(GL_CULL_FACE);
-
-	// The color buffer is accumulated for each light, so use this blend function when doing the lighting pass.
-	glBlendFunc(GL_ONE, GL_ONE);
-
-	return GLUS_TRUE;
+    return GLUS_TRUE;
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-	glViewport(0, 0, width, height);
+    static GLfloat biasMatrix[] = { 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f };
 
-	glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
+    GLfloat projectionMatrix[16];
+
+    g_width = width;
+
+    g_height = height;
+
+    //
+
+    glUseProgram(g_programDepthPass.program);
+
+    glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) g_depthPassTextureSize / (GLfloat) g_depthPassTextureSize, g_near, g_far);
+
+    glUniformMatrix4fv(g_projectionMatrixDepthPassLocation, 1, GL_FALSE, projectionMatrix);
+
+    glusMatrix4x4Identityf(g_depthPassMatrix);
+    glusMatrix4x4Multiplyf(g_depthPassMatrix, g_depthPassMatrix, biasMatrix);
+    glusMatrix4x4Multiplyf(g_depthPassMatrix, g_depthPassMatrix, projectionMatrix);
+
+    //
+
+    glUseProgram(g_program.program);
+
+    glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
+
+    glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
 }
 
 GLUSboolean update(GLUSfloat time)
 {
-	static GLfloat biasMatrix[] = { 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f };
+    static GLfloat angle = 0.0f;
 
-	static GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
+    GLfloat depthPassMatrix[16];
+    GLfloat modelViewMatrix[16];
+    GLfloat viewMatrix[16];
+    GLfloat modelMatrix[16];
+    GLfloat normalMatrix[9];
 
-	static GLfloat angle = 0.0f;
+    // Rendering into the depth pass texture.
 
-	GLfloat viewMatrix[16];
-	GLfloat modelMatrix[16];
-	GLfloat normalMatrix[9];
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-	GLUSgroupList* groupWalker;
+    // Setup for the framebuffer.
+    glBindFramebuffer(GL_FRAMEBUFFER, g_fbo);
+    glViewport(0, 0, g_depthPassTextureSize, g_depthPassTextureSize);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
-	//
-	// Do the deferred shading by rendering into the geometry buffers.
-	//
+    glusMatrix4x4LookAtf(viewMatrix, g_lightPosition[0], g_lightPosition[1], g_lightPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, g_dsFBO);
-	glDrawBuffers(4, drawBuffers);
+    glusMatrix4x4Multiplyf(depthPassMatrix, g_depthPassMatrix, viewMatrix);
 
-	reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    glClear(GL_DEPTH_BUFFER_BIT);
 
-	glUseProgram(g_programDeferredShading.program);
+    glUseProgram(g_programDepthPass.program);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Render the Dragon.
 
-	//
+    glusMatrix4x4Identityf(modelMatrix);
+    glusMatrix4x4RotateRzRxRyf(modelMatrix, 0.0f, 0.0f, angle);
+    // Upscaling a little bit avoids artifacts.
+    glusMatrix4x4Scalef(modelMatrix, 1.05f, 1.05f, 1.05f);
+    glusMatrix4x4Multiplyf(modelViewMatrix, viewMatrix, modelMatrix);
 
-	// Just pass the projection matrix. The final matrix is calculated in the shader.
-	glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, g_projectionMatrix);
+    glUniformMatrix4fv(g_modelViewMatrixDepthPassLocation, 1, GL_FALSE, modelViewMatrix);
 
-	// Orbit camera around models
-	glusMatrix4x4LookAtf(viewMatrix, sinf(angle) * 10.0f, 4.0f, cosf(angle) * 10.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    glBindVertexArray(g_vaoDepthPass);
 
-	glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
+    glDrawArrays(GL_TRIANGLES, 0, g_numberVertices);
 
-	//
+    // Revert for the scene.
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    glViewport(0, 0, g_width, g_height);
 
-	glusMatrix4x4Identityf(modelMatrix);
+    glBindTexture(GL_TEXTURE_2D, g_depthPassTexture);
 
-	glusMatrix4x4Translatef(modelMatrix, -(float)OBJECTS_COLUMNS / 2.0f + 0.5f, 0.0f, (float)OBJECTS_COLUMNS / 2.0f - 0.5f);
+    //
 
-	// Scale the model up
-	glusMatrix4x4Scalef(modelMatrix, 10.0f, 10.0f, 10.0f);
+    // Render the scene.
 
-	// Uniform scale, so extracting is sufficient
-	glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelMatrix);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, modelMatrix);
-	glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
+    glUseProgram(g_program.program);
 
-	//
+    glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 
-	glActiveTexture(GL_TEXTURE0);
+    glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
+    glUniformMatrix4fv(g_depthPassMatrixLocation, 1, GL_FALSE, depthPassMatrix);
 
-	groupWalker = g_wavefront.groups;
-	while (groupWalker)
-	{
-		// Set up material values.
-		glUniform4fv(g_material.diffuseColorLocation, 1, groupWalker->group.material->diffuse);
-		glUniform4fv(g_material.specularColorLocation, 1, groupWalker->group.material->specular);
-		glUniform1f(g_material.specularExponentLocation, groupWalker->group.material->shininess);
+    // Dragon
+    glusMatrix4x4Identityf(modelMatrix);
+    glusMatrix4x4RotateRzRxRyf(modelMatrix, 0.0f, 0.0f, angle);
+    glusMatrix4x4Multiplyf(modelViewMatrix, viewMatrix, modelMatrix);
+    glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
 
-		// Enable only texturing, if the material has a texture
-		if (groupWalker->group.material->diffuseTextureName)
-		{
-			glUniform1i(g_useTextureLocation, 1);
-			glUniform1i(g_material.diffuseTextureLocation, 0);
-			glBindTexture(GL_TEXTURE_2D, groupWalker->group.material->diffuseTextureName);
-		}
-		else
-		{
-			glUniform1i(g_useTextureLocation, 0);
-			glUniform1i(g_material.diffuseTextureLocation, 0);
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
+    glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, modelMatrix);
+    glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
+    glUniform4f(g_diffuseColorLocation, 0.8f, 0.0f, 0.0f, 1.0f);
+    glUniform4f(g_scatterColorLocation, 0.8f, 0.8f, 0.0f, 1.0f);
 
-		glBindVertexArray(groupWalker->group.vao);
+    glUniform2f(g_nearFarLocation, g_near, g_far);
+    glUniform1f(g_wrapLocation, g_wrap);
+    glUniform1f(g_scatterWidthLocation, g_scatterWidth);
+    glUniform1f(g_scatterFalloffLocation, g_scatterFalloff);
 
-		glDrawElementsInstanced(GL_TRIANGLES, groupWalker->group.numberIndices, GL_UNSIGNED_INT, 0, OBJECTS_COLUMNS * OBJECTS_COLUMNS);
+    glBindVertexArray(g_vao);
+    glDrawArrays(GL_TRIANGLES, 0, g_numberVertices);
 
-		groupWalker = groupWalker->next;
-	}
+    //
 
-	//
-	// Render now to display framebuffer.
-	//
+    angle += 20.0f * time;
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDrawBuffer(GL_COLOR_ATTACHMENT0);
-
-	reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
-
-	glUseProgram(g_programPointLight.program);
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glUniformMatrix4fv(g_projectionMatrixPointLightLocation, 1, GL_FALSE, g_projectionMatrix);
-
-	glUniformMatrix4fv(g_viewMatrixPointLightLocation, 1, GL_FALSE, viewMatrix);
-
-	//
-
-	glusMatrix4x4Identityf(modelMatrix);
-
-	glusMatrix4x4Translatef(modelMatrix, -7.0f, 0.0f, 7.0f);
-
-	glUniformMatrix4fv(g_modelMatrixPointLightLocation, 1, GL_FALSE, modelMatrix);
-
-	//
-
-	// Update position matrix of the point lights. Each matrix filed is used to calculate the final position.
-	for (GLint i = 0; i < POINT_LIGHT_COUNT; i++)
-	{
-		g_positionMatrix[i] += g_directionMatrix[i] * time * 5.0f;
-
-		if (g_positionMatrix[i] > (float)POINT_LIGHT_COUNT - 2.0f)
-		{
-			g_positionMatrix[i] = ((float)POINT_LIGHT_COUNT - 2.0f) - (g_positionMatrix[i] - ((float)POINT_LIGHT_COUNT - 2.0f));
-			g_directionMatrix[i] *= -1.0f;
-		}
-		else if (g_positionMatrix[i] < 0.0f)
-		{
-			g_positionMatrix[i] = -g_positionMatrix[i];
-			g_directionMatrix[i] *= -1.0f;
-		}
-	}
-
-	glUniformMatrix4fv(g_positionMatrixPointLightLocation, 1, GL_FALSE, g_positionMatrix);
-
-	glUniformMatrix4fv(g_biasMatrixPointLightLocation, 1, GL_FALSE, biasMatrix);
-
-	glUniform1f(g_radiusPointLightLocation, POINT_LIGHT_RADIUS);
-
-	// Blend, as color is accumulated for each point light.
-	glEnable(GL_BLEND);
-	// No depth test, as the complete sphere of the point light should be processed.
-	glDisable(GL_DEPTH_TEST);
-
-	// Enable all the geometry buffer textures.
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, g_dsDiffuseTexture);
-	glUniform1i(g_diffusePointLightLocation, 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, g_dsSpecularTexture);
-	glUniform1i(g_specularPointLightLocation, 1);
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, g_dsPositionTexture);
-	glUniform1i(g_positionPointLightLocation, 2);
-
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, g_dsNormalTexture);
-	glUniform1i(g_normalPointLightLocation, 3);
-
-	glBindVertexArray(g_vaoPointLight);
-
-	glDrawElementsInstanced(GL_TRIANGLES, g_numberIndicesPointLight, GL_UNSIGNED_INT, 0, POINT_LIGHT_COUNT);
-
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_BLEND);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//
-
-	// 20 seconds for one turn
-	angle += 2.0f * GLUS_PI * time / 20.0f;
-
-	return GLUS_TRUE;
+    return GLUS_TRUE;
 }
 
 GLUSvoid terminate(GLUSvoid)
 {
-	GLUSgroupList* groupWalker;
-	GLUSmaterialList* materialWalker;
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    if (g_depthPassTexture)
+    {
+        glDeleteRenderbuffers(1, &g_depthPassTexture);
 
-	if (g_verticesPointLightVBO)
+        g_depthPassTexture = 0;
+    }
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    if (g_fbo)
+    {
+        glDeleteFramebuffers(1, &g_fbo);
+
+        g_fbo = 0;
+    }
+
+    //
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    if (g_verticesVBO)
+    {
+        glDeleteBuffers(1, &g_verticesVBO);
+
+        g_verticesVBO = 0;
+    }
+
+    if (g_normalsVBO)
+    {
+        glDeleteBuffers(1, &g_normalsVBO);
+
+        g_normalsVBO = 0;
+    }
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    glBindVertexArray(0);
+
+    if (g_vao)
+    {
+        glDeleteVertexArrays(1, &g_vao);
+
+        g_vao = 0;
+    }
+
+    glUseProgram(0);
+
+    glusProgramDestroy(&g_program);
+
+    //
+
+    if (g_vaoDepthPass)
+    {
+        glDeleteVertexArrays(1, &g_vaoDepthPass);
+
+        g_vaoDepthPass = 0;
+    }
+
+    glusProgramDestroy(&g_programDepthPass);
+}
+
+GLUSvoid key(const GLUSboolean pressed, const GLUSint key)
+{
+	if (pressed)
 	{
-		glDeleteBuffers(1, &g_verticesPointLightVBO);
-
-		g_verticesPointLightVBO = 0;
-	}
-
-	if (g_wavefront.verticesVBO)
-	{
-		glDeleteBuffers(1, &g_wavefront.verticesVBO);
-
-		g_wavefront.verticesVBO = 0;
-	}
-
-	if (g_wavefront.normalsVBO)
-	{
-		glDeleteBuffers(1, &g_wavefront.normalsVBO);
-
-		g_wavefront.normalsVBO = 0;
-	}
-
-	if (g_wavefront.texCoordsVBO)
-	{
-		glDeleteBuffers(1, &g_wavefront.texCoordsVBO);
-
-		g_wavefront.texCoordsVBO = 0;
-	}
-
-	glBindVertexArray(0);
-
-	if (g_vaoPointLight)
-	{
-		glDeleteVertexArrays(1, &g_vaoPointLight);
-
-		g_vaoPointLight = 0;
-	}
-
-	groupWalker = g_wavefront.groups;
-	while (groupWalker)
-	{
-		if (groupWalker->group.indicesVBO)
+		if (key == '1')
 		{
-			glDeleteBuffers(1, &groupWalker->group.indicesVBO);
-
-			groupWalker->group.indicesVBO = 0;
+			g_wrap -= 0.1f;
 		}
-
-		if (groupWalker->group.vao)
+		else if (key == '2')
 		{
-			glDeleteVertexArrays(1, &groupWalker->group.vao);
-
-			groupWalker->group.vao = 0;
+			g_wrap += 0.1f;
 		}
-
-		groupWalker = groupWalker->next;
-	}
-
-	materialWalker = g_wavefront.materials;
-	while (materialWalker)
-	{
-		if (materialWalker->material.diffuseTextureName)
+		else if (key == '3')
 		{
-			glDeleteTextures(1, &materialWalker->material.diffuseTextureName);
-
-			materialWalker->material.diffuseTextureName = 0;
+			g_scatterWidth -= 0.1f;
 		}
-
-		materialWalker = materialWalker->next;
+		else if (key == '4')
+		{
+			g_scatterWidth += 0.1f;
+		}
+		else if (key == '5')
+		{
+			g_scatterFalloff -= 5.0f;
+		}
+		else if (key == '6')
+		{
+			g_scatterFalloff += 5.0f;
+		}
 	}
 
-	glUseProgram(0);
-
-	glusProgramDestroy(&g_programDeferredShading);
-
-	glusProgramDestroy(&g_programPointLight);
-
-	glusWavefrontDestroy(&g_wavefront);
-
-	//
-
-	//
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (g_dsDiffuseTexture)
-	{
-		glDeleteTextures(1, &g_dsDiffuseTexture);
-
-		g_dsDiffuseTexture = 0;
-	}
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (g_dsSpecularTexture)
-	{
-		glDeleteTextures(1, &g_dsSpecularTexture);
-
-		g_dsSpecularTexture = 0;
-	}
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (g_dsPositionTexture)
-	{
-		glDeleteTextures(1, &g_dsPositionTexture);
-
-		g_dsPositionTexture = 0;
-	}
-
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (g_dsNormalTexture)
-	{
-		glDeleteTextures(1, &g_dsNormalTexture);
-
-		g_dsNormalTexture = 0;
-	}
-
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	if (g_dsDepthTexture)
-	{
-		glDeleteTextures(1, &g_dsDepthTexture);
-
-		g_dsDepthTexture = 0;
-	}
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	if (g_dsFBO)
-	{
-		glDeleteFramebuffers(1, &g_dsFBO);
-
-		g_dsFBO = 0;
-	}
+	g_wrap = glusMathClampf(g_wrap, 0.0f, 1.0f);
+	g_scatterWidth = glusMathClampf(g_scatterWidth, 0.0f, 1.0f);
+	g_scatterFalloff = glusMathClampf(g_scatterFalloff, 0.0f, 50.0f);
 }
 
 int main(int argc, char* argv[])
@@ -819,8 +519,8 @@ int main(int argc, char* argv[])
 	};
 
     EGLint eglContextAttributes[] = {
-    		EGL_CONTEXT_MAJOR_VERSION, 4,
-    		EGL_CONTEXT_MINOR_VERSION, 1,
+    		EGL_CONTEXT_MAJOR_VERSION, 3,
+    		EGL_CONTEXT_MINOR_VERSION, 2,
     		EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE, EGL_TRUE,
     		EGL_CONTEXT_OPENGL_PROFILE_MASK, EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
     		EGL_NONE
@@ -830,16 +530,27 @@ int main(int argc, char* argv[])
 
     glusWindowSetReshapeFunc(reshape);
 
+    glusWindowSetKeyFunc(key);
+
     glusWindowSetUpdateFunc(update);
 
     glusWindowSetTerminateFunc(terminate);
 
-    // Again, makes programming for this example easier.
-    if (!glusWindowCreate("GLUS Example Window", TEXTURE_WIDTH, TEXTURE_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes, eglContextAttributes, 0))
+    if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes, eglContextAttributes, 0))
     {
         printf("Could not create window!\n");
         return -1;
     }
+
+    // Print out the keys
+    printf("Keys:\n");
+    printf("1       = Decrease wrap\n");
+    printf("2       = Increase wrap\n");
+    printf("3       = Decrease scatter width\n");
+    printf("4       = Increase scatter width\n");
+    printf("5       = Decrease scatter falloff\n");
+    printf("6       = Increase scatter falloff\n");
+    printf("\n");
 
     glusWindowRun();
 

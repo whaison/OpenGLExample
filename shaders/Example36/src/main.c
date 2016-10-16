@@ -1,5 +1,5 @@
 /**
- * OpenGL 4 - Example 36
+ * OpenGL 3 - Example 43
  *
  * @author	Norbert Nopper norbert@nopper.tv
  *
@@ -12,25 +12,15 @@
 
 #include "GL/glus.h"
 
-#define SCREEN_WIDTH  1024
-#define SCREEN_HEIGHT 768
-
-// Maximum number of nodes in the linked list. Shared for all fragments.
-#define MAX_NODES (8*SCREEN_WIDTH*SCREEN_HEIGHT)
-
-#define BINDING_ATOMIC_FREE_INDEX 0
-#define BINDING_IMAGE_HEAD_INDEX 0
-#define BINDING_BUFFER_LINKED_LIST 0
-
 /**
  * Properties of the light.
  */
 struct LightProperties
 {
-    GLfloat direction[3];
-    GLfloat ambientColor[4];
-    GLfloat diffuseColor[4];
-    GLfloat specularColor[4];
+	GLfloat direction[3];
+	GLfloat ambientColor[4];
+	GLfloat diffuseColor[4];
+	GLfloat specularColor[4];
 };
 
 /**
@@ -38,11 +28,10 @@ struct LightProperties
  */
 struct MaterialProperties
 {
-    GLfloat ambientColor[4];
-    GLfloat diffuseColor[4];
-    GLfloat specularColor[4];
-    GLfloat specularExponent;
-    GLfloat alpha;
+	GLfloat ambientColor[4];
+	GLfloat diffuseColor[4];
+	GLfloat specularColor[4];
+	GLfloat specularExponent;
 };
 
 /**
@@ -50,411 +39,394 @@ struct MaterialProperties
  */
 struct LightLocations
 {
-    GLint directionLocation;
-    GLint ambientColorLocation;
-    GLint diffuseColorLocation;
-    GLint specularColorLocation;
+	GLint directionLocation;
+	GLint ambientColorLocation;
+	GLint diffuseColorLocation;
+	GLint specularColorLocation;
 };
 
 /**
- * Locations for the material properties.
+ * Locations for the material properties. With a diffuse texture.
  */
 struct MaterialLocations
 {
-    GLint ambientColorLocation;
-    GLint diffuseColorLocation;
-    GLint specularColorLocation;
-    GLint specularExponentLocation;
-    GLint alphaLocation;
+	GLint ambientColorLocation;
+	GLint diffuseColorLocation;
+	GLint specularColorLocation;
+	GLint specularExponentLocation;
+
+	GLint diffuseTextureLocation;
 };
 
 static GLfloat g_viewMatrix[16];
 
 static GLUSprogram g_program;
 
+/**
+ * The location of the projection matrix.
+ */
 static GLint g_projectionMatrixLocation;
 
+/**
+ * The location of the model view matrix.
+ */
 static GLint g_modelViewMatrixLocation;
 
 static GLint g_normalMatrixLocation;
-
-static GLint g_maxNodesLocation;
 
 static GLint g_vertexLocation;
 
 static GLint g_normalLocation;
 
+static GLint g_texCoordLocation;
+
+static GLint g_useTextureLocation;
+
+/**
+ * The locations for the light properties.
+ */
 static struct LightLocations g_light;
 
+/**
+ * The locations for the material properties.
+ */
 static struct MaterialLocations g_material;
 
-//
-
-static GLuint g_verticesVBO;
-
-static GLuint g_normalsVBO;
-
-static GLuint g_vao;
-
-static GLuint g_numberVertices;
-
-//
-
-static GLuint g_blendFullscreenVAO;
-
-//
-
-static GLUSprogram g_blendFullscreenProgram;
-
-//
-
-static GLuint g_freeNodeIndex;
-
-static GLuint g_headIndexTexture;
-
-static GLuint g_clearBuffer;
-
-static GLuint g_linkedListBuffer;
+/**
+ * This structure contains the loaded wavefront object file.
+ */
+static GLUSscene g_scene;
 
 GLUSboolean init(GLUSvoid)
 {
-    // This is a white light.
-    struct LightProperties light = { { 1.0f, 1.0f, 1.0f }, { 0.3f, 0.3f, 0.3f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f } };
+	// This is a white light.
+	struct LightProperties light = { { 1.0f, 1.0f, 1.0f }, { 0.3f, 0.3f, 0.3f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f } };
 
-    // Green color material with white specular color, half transparent.
-    struct MaterialProperties material = { { 0.0f, 1.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 20.0f, 0.5f };
+	GLUStextfile vertexSource;
+	GLUStextfile fragmentSource;
 
-    // Buffer for cleaning the head index testure.
-    static GLuint clearBuffer[SCREEN_WIDTH * SCREEN_HEIGHT];
+	GLUStgaimage image;
 
-    GLUStextfile vertexSource;
-    GLUStextfile fragmentSource;
+	GLUSobjectList* objectWalker;
+	GLUSgroupList* groupWalker;
+	GLUSmaterialList* materialWalker;
 
-    GLUSshape wavefrontObj;
+	glusFileLoadText("../Example43/shader/phong_textured.vert.glsl", &vertexSource);
+	glusFileLoadText("../Example43/shader/phong_textured.frag.glsl", &fragmentSource);
 
-    GLuint i;
-
-    for (i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++)
-    {
-    	// 0xffffffff means end of list, so for the start tehre is no entry.
-    	clearBuffer[i] = 0xffffffff;
-    }
-
-    //
-
-    glusFileLoadText("../Example36/shader/phong_linked_list.vert.glsl", &vertexSource);
-    glusFileLoadText("../Example36/shader/phong_linked_list.frag.glsl", &fragmentSource);
-
-    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
-
-    glusFileDestroyText(&vertexSource);
-    glusFileDestroyText(&fragmentSource);
-
-    //
-
-    g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
-    g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
-    g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
-
-    g_light.directionLocation = glGetUniformLocation(g_program.program, "u_light.direction");
-    g_light.ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor");
-    g_light.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor");
-    g_light.specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor");
-
-    g_material.ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor");
-    g_material.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor");
-    g_material.specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor");
-    g_material.specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent");
-    g_material.alphaLocation = glGetUniformLocation(g_program.program, "u_material.alpha");
-
-    g_maxNodesLocation = glGetUniformLocation(g_program.program, "u_maxNodes");
-
-    g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
-    g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
-
-    //
-
-	glusFileLoadText("../Example36/shader/fullscreen_blend.vert.glsl", &vertexSource);
-	glusFileLoadText("../Example36/shader/fullscreen_blend.frag.glsl", &fragmentSource);
-
-	glusProgramBuildFromSource(&g_blendFullscreenProgram, (const GLchar**)&vertexSource.text, 0, 0, 0, (const GLchar**)&fragmentSource.text);
+	glusProgramBuildFromSource(&g_program, (const GLUSchar**)&vertexSource.text, 0, 0, 0, (const GLUSchar**)&fragmentSource.text);
 
 	glusFileDestroyText(&vertexSource);
 	glusFileDestroyText(&fragmentSource);
 
-	// Atomic counter to gather a free node slot concurrently.
+	//
 
-	glGenBuffers(1, &g_freeNodeIndex);
+	g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+	g_modelViewMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewMatrix");
+	g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
 
-	glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, BINDING_ATOMIC_FREE_INDEX, g_freeNodeIndex);
-	glBufferData(GL_ATOMIC_COUNTER_BUFFER, sizeof(GLuint), 0, GL_DYNAMIC_DRAW);
+	g_light.directionLocation = glGetUniformLocation(g_program.program, "u_light.direction");
+	g_light.ambientColorLocation = glGetUniformLocation(g_program.program, "u_light.ambientColor");
+	g_light.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_light.diffuseColor");
+	g_light.specularColorLocation = glGetUniformLocation(g_program.program, "u_light.specularColor");
 
-	// Head index texture/image, which contains the
+	g_material.ambientColorLocation = glGetUniformLocation(g_program.program, "u_material.ambientColor");
+	g_material.diffuseColorLocation = glGetUniformLocation(g_program.program, "u_material.diffuseColor");
+	g_material.specularColorLocation = glGetUniformLocation(g_program.program, "u_material.specularColor");
+	g_material.specularExponentLocation = glGetUniformLocation(g_program.program, "u_material.specularExponent");
+	g_material.diffuseTextureLocation = glGetUniformLocation(g_program.program, "u_material.diffuseTexture");
 
-	glGenTextures(1, &g_headIndexTexture);
+	g_useTextureLocation = glGetUniformLocation(g_program.program, "u_useTexture");
 
-	glBindTexture(GL_TEXTURE_2D, g_headIndexTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32UI, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
+	g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
+	g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
+	g_texCoordLocation = glGetAttribLocation(g_program.program, "a_texCoord");
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//
+	// Use a helper function to load the wavefront object file.
+	//
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glusWavefrontLoadScene("three_objects.obj", &g_scene);
 
-	glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, g_headIndexTexture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
+	objectWalker = g_scene.objectList;
+	while (objectWalker)
+	{
+		glGenBuffers(1, &objectWalker->object.verticesVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.verticesVBO);
+		glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 4 * sizeof(GLfloat), (GLfloat*)objectWalker->object.vertices, GL_STATIC_DRAW);
 
-	// Buffer to clear/reset the head pointers.
+		glGenBuffers(1, &objectWalker->object.normalsVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.normalsVBO);
+		glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 3 * sizeof(GLfloat), (GLfloat*)objectWalker->object.normals, GL_STATIC_DRAW);
 
-	glGenBuffers(1, &g_clearBuffer);
+		glGenBuffers(1, &objectWalker->object.texCoordsVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.texCoordsVBO);
+		glBufferData(GL_ARRAY_BUFFER, objectWalker->object.numberVertices * 2 * sizeof(GLfloat), (GLfloat*)objectWalker->object.texCoords, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, g_clearBuffer);
-	glBufferData(GL_PIXEL_UNPACK_BUFFER, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(GLuint), clearBuffer, GL_STATIC_COPY);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	// Buffer for the linked list.
+		//
+		// Set up indices and the VAOs for each group
+		//
 
-	glGenBuffers(1, &g_linkedListBuffer);
+		glUseProgram(g_program.program);
 
-	glBindBufferBase(GL_SHADER_STORAGE_BUFFER, BINDING_BUFFER_LINKED_LIST, g_linkedListBuffer);
-	// Size is RGBA, depth (5 * GLfloat), next pointer (1 * GLuint) and 2 paddings (2 * GLfloat).
-	glBufferData(GL_SHADER_STORAGE_BUFFER, MAX_NODES * (sizeof(GLfloat) * 5 + sizeof(GLuint) * 1) + sizeof(GLfloat) * 2, 0, GL_DYNAMIC_DRAW);
+		groupWalker = objectWalker->object.groups;
+		while (groupWalker)
+		{
+			glGenBuffers(1, &groupWalker->group.indicesVBO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.numberIndices * sizeof(GLuint), (GLuint*)groupWalker->group.indices, GL_STATIC_DRAW);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			//
+
+			glGenVertexArrays(1, &groupWalker->group.vao);
+			glBindVertexArray(groupWalker->group.vao);
+
+			glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.verticesVBO);
+			glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+			glEnableVertexAttribArray(g_vertexLocation);
+
+			glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.normalsVBO);
+			glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+			glEnableVertexAttribArray(g_normalLocation);
+
+			glBindBuffer(GL_ARRAY_BUFFER, objectWalker->object.texCoordsVBO);
+			glVertexAttribPointer(g_texCoordLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+			glEnableVertexAttribArray(g_texCoordLocation);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, groupWalker->group.indicesVBO);
+
+			glBindVertexArray(0);
+
+			groupWalker = groupWalker->next;
+		}
+
+		//
+		// Load the textures, if there are available
+		//
+
+		materialWalker = objectWalker->object.materials;
+		while (materialWalker)
+		{
+			if (materialWalker->material.diffuseTextureFilename[0] != '\0')
+			{
+				// Load the image.
+				glusImageLoadTga(materialWalker->material.diffuseTextureFilename, &image);
+
+				// Generate and bind a texture.
+				glGenTextures(1, &materialWalker->material.diffuseTextureName);
+				glBindTexture(GL_TEXTURE_2D, materialWalker->material.diffuseTextureName);
+
+				// Transfer the image data from the CPU to the GPU.
+				glTexImage2D(GL_TEXTURE_2D, 0, image.format, image.width, image.height, 0, image.format, GL_UNSIGNED_BYTE, image.data);
+
+				// Setting the texture parameters.
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+				glGenerateMipmap(GL_TEXTURE_2D);
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
+			materialWalker = materialWalker->next;
+		}
+
+		objectWalker = objectWalker->next;
+	}
 
 	//
 
-    // Use a helper function to load an wavefront object file.
-    glusShapeLoadWavefront("dragon.obj", &wavefrontObj);
-
-    g_numberVertices = wavefrontObj.numberVertices;
-
-    glGenBuffers(1, &g_verticesVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-    glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) wavefrontObj.vertices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &g_normalsVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-    glBufferData(GL_ARRAY_BUFFER, wavefrontObj.numberVertices * 3 * sizeof(GLfloat), (GLfloat*) wavefrontObj.normals, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glusShapeDestroyf(&wavefrontObj);
-
-    //
-
-	glUseProgram(g_blendFullscreenProgram.program);
-
-	glGenVertexArrays(1, &g_blendFullscreenVAO);
-	glBindVertexArray(g_blendFullscreenVAO);
-
-    glBindVertexArray(0);
+	glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.75f, 10.0f, 0.0f, 0.75f, 0.0f, 0.0f, 1.0f, 0.0f);
 
 	//
 
-    glUseProgram(g_program.program);
+	glusVector3Normalizef(light.direction);
 
-    glGenVertexArrays(1, &g_vao);
-    glBindVertexArray(g_vao);
+	// Transform light to camera space, as it is currently in world space.
+	glusMatrix4x4MultiplyVector3f(light.direction, g_viewMatrix, light.direction);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-    glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(g_vertexLocation);
+	// Set up light
+	glUniform3fv(g_light.directionLocation, 1, light.direction);
+	glUniform4fv(g_light.ambientColorLocation, 1, light.ambientColor);
+	glUniform4fv(g_light.diffuseColorLocation, 1, light.diffuseColor);
+	glUniform4fv(g_light.specularColorLocation, 1, light.specularColor);
 
-    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
-    glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(g_normalLocation);
+	//
 
-    glBindVertexArray(0);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    //
+	glClearDepth(1.0f);
 
-    glusMatrix4x4LookAtf(g_viewMatrix, 0.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+	glEnable(GL_DEPTH_TEST);
 
-    //
+	glEnable(GL_CULL_FACE);
 
-    glusVector3Normalizef(light.direction);
-
-    // Transform light to camera space, as it is currently in world space.
-    glusMatrix4x4MultiplyVector3f(light.direction, g_viewMatrix, light.direction);
-
-    // Set up light ...
-    glUniform3fv(g_light.directionLocation, 1, light.direction);
-    glUniform4fv(g_light.ambientColorLocation, 1, light.ambientColor);
-    glUniform4fv(g_light.diffuseColorLocation, 1, light.diffuseColor);
-    glUniform4fv(g_light.specularColorLocation, 1, light.specularColor);
-
-    // ... and material values.
-    glUniform4fv(g_material.ambientColorLocation, 1, material.ambientColor);
-    glUniform4fv(g_material.diffuseColorLocation, 1, material.diffuseColor);
-    glUniform4fv(g_material.specularColorLocation, 1, material.specularColor);
-    glUniform1f(g_material.specularExponentLocation, material.specularExponent);
-    glUniform1f(g_material.alphaLocation, material.alpha);
-
-    glUniform1ui(g_maxNodesLocation, MAX_NODES);
-
-    //
-
-    glDisable(GL_DEPTH_TEST);
-
-    return GLUS_TRUE;
+	return GLUS_TRUE;
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-    GLfloat projectionMatrix[16];
+	GLfloat projectionMatrix[16];
 
-    glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
 
-    glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
+	glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 
-    // Just pass the projection matrix. The final matrix is calculated in the shader.
-    glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
+	// Just pass the projection matrix. The final matrix is calculated in the shader.
+	glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
 }
 
 GLUSboolean update(GLUSfloat time)
 {
-    static GLfloat angle = 0.0f;
+	static GLfloat angle = 0.0f;
 
-    static GLuint zero = 0;
+	GLfloat modelViewMatrix[16];
+	GLfloat normalMatrix[9];
 
-    GLfloat modelViewMatrix[16];
-    GLfloat normalMatrix[9];
+	GLUSobjectList* objectWalker;
+	GLUSgroupList* groupWalker;
 
-    glusMatrix4x4Identityf(modelViewMatrix);
+	glusMatrix4x4Identityf(modelViewMatrix);
 
-    glusMatrix4x4RotateRyf(modelViewMatrix, angle);
+	glusMatrix4x4RotateRyf(modelViewMatrix, angle);
+	// Scale the model up
+	glusMatrix4x4Scalef(modelViewMatrix, 1.0f, 1.0f, 1.0f);
 
-    glusMatrix4x4Multiplyf(modelViewMatrix, g_viewMatrix, modelViewMatrix);
+	glusMatrix4x4Multiplyf(modelViewMatrix, g_viewMatrix, modelViewMatrix);
 
-    glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
+	// Uniform scale, so extracting is sufficient
+	glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
 
-    glUseProgram(g_program.program);
-    glBindVertexArray(g_vao);
+	glUniformMatrix4fv(g_modelViewMatrixLocation, 1, GL_FALSE, modelViewMatrix);
+	glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
 
-    glUniformMatrix4fv(g_modelViewMatrixLocation, 1, GL_FALSE, modelViewMatrix);
-    glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //
-    // Linked list rendering pass.
-    //
 
-    // Reset the atomic counter.
-    glBufferSubData(GL_ATOMIC_COUNTER_BUFFER, 0, sizeof(GLuint), &zero);
+	objectWalker = g_scene.objectList;
 
-    // Reset the head pointers by copying the clear buffer into the texture.
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, g_clearBuffer);
+	while (objectWalker)
+	{
+		groupWalker = objectWalker->object.groups;
+		while (groupWalker)
+		{
+			// Set up material values.
+			glUniform4fv(g_material.ambientColorLocation, 1, groupWalker->group.material->ambient);
+			glUniform4fv(g_material.diffuseColorLocation, 1, groupWalker->group.material->diffuse);
+			glUniform4fv(g_material.specularColorLocation, 1, groupWalker->group.material->specular);
+			glUniform1f(g_material.specularExponentLocation, groupWalker->group.material->shininess);
 
-    glBindTexture(GL_TEXTURE_2D, g_headIndexTexture);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+			// Enable only texturing, if the material has a texture
+			if (groupWalker->group.material->diffuseTextureName)
+			{
+				glUniform1i(g_useTextureLocation, 1);
+				glUniform1i(g_material.diffuseTextureLocation, 0);
+				glBindTexture(GL_TEXTURE_2D, groupWalker->group.material->diffuseTextureName);
+			}
+			else
+			{
+				glUniform1i(g_useTextureLocation, 0);
+				glUniform1i(g_material.diffuseTextureLocation, 0);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 
-    glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+			glBindVertexArray(groupWalker->group.vao);
 
-    //
+			glDrawElements(GL_TRIANGLES, groupWalker->group.numberIndices, GL_UNSIGNED_INT, 0);
 
-	glDrawArrays(GL_TRIANGLES, 0, g_numberVertices);
+			groupWalker = groupWalker->next;
+		}
 
-	//
-    // Fullscreen quad rendering.
-	//
+		objectWalker = objectWalker->next;
+	}
 
-    glUseProgram(g_blendFullscreenProgram.program);
-    glBindVertexArray(g_blendFullscreenVAO);
+	angle += 30.0f * time;
 
-	// Resolving and blending is happening in the shader.
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-
-    angle += 30.0f * time;
-
-    return GLUS_TRUE;
+	return GLUS_TRUE;
 }
 
 GLUSvoid terminate(GLUSvoid)
 {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+	GLUSobjectList* objectWalker;
+	GLUSgroupList* groupWalker;
+	GLUSmaterialList* materialWalker;
 
-    if (g_verticesVBO)
-    {
-        glDeleteBuffers(1, &g_verticesVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        g_verticesVBO = 0;
-    }
+	glBindVertexArray(0);
 
-    if (g_normalsVBO)
-    {
-        glDeleteBuffers(1, &g_normalsVBO);
+	objectWalker = g_scene.objectList;
 
-        g_normalsVBO = 0;
-    }
-
-    glBindVertexArray(0);
-
-    if (g_vao)
-    {
-        glDeleteVertexArrays(1, &g_vao);
-
-        g_vao = 0;
-    }
-
-    if (g_vao)
-    {
-        glDeleteVertexArrays(1, &g_blendFullscreenVAO);
-
-        g_vao = 0;
-    }
-
-    glUseProgram(0);
-
-    glusProgramDestroy(&g_program);
-
-    glusProgramDestroy(&g_blendFullscreenProgram);
-
-    //
-    //
-    //
-
-	glBindBuffer(GL_ATOMIC_COUNTER_BUFFER, 0);
-
-	if (g_freeNodeIndex)
+	while (objectWalker)
 	{
-		glDeleteBuffers(1, &g_freeNodeIndex);
+		if (objectWalker->object.verticesVBO)
+		{
+			glDeleteBuffers(1, &objectWalker->object.verticesVBO);
 
-		g_freeNodeIndex = 0;
+			objectWalker->object.verticesVBO = 0;
+		}
+
+		if (objectWalker->object.normalsVBO)
+		{
+			glDeleteBuffers(1, &objectWalker->object.normalsVBO);
+
+			objectWalker->object.normalsVBO = 0;
+		}
+
+		if (objectWalker->object.texCoordsVBO)
+		{
+			glDeleteBuffers(1, &objectWalker->object.texCoordsVBO);
+
+			objectWalker->object.texCoordsVBO = 0;
+		}
+
+		groupWalker = objectWalker->object.groups;
+		while (groupWalker)
+		{
+			if (groupWalker->group.indicesVBO)
+			{
+				glDeleteBuffers(1, &groupWalker->group.indicesVBO);
+
+				groupWalker->group.indicesVBO = 0;
+			}
+
+			if (groupWalker->group.vao)
+			{
+				glDeleteVertexArrays(1, &groupWalker->group.vao);
+
+				groupWalker->group.vao = 0;
+			}
+
+			groupWalker = groupWalker->next;
+		}
+
+		materialWalker = objectWalker->object.materials;
+		while (materialWalker)
+		{
+			if (materialWalker->material.diffuseTextureName)
+			{
+				glDeleteTextures(1, &materialWalker->material.diffuseTextureName);
+
+				materialWalker->material.diffuseTextureName = 0;
+			}
+
+			materialWalker = materialWalker->next;
+		}
+
+		objectWalker = objectWalker->next;
 	}
 
-	//
+	glUseProgram(0);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glusProgramDestroy(&g_program);
 
-	glBindImageTexture(BINDING_IMAGE_HEAD_INDEX, 0, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
-
-	if (g_headIndexTexture)
-	{
-		glDeleteTextures(1, &g_headIndexTexture);
-
-		g_headIndexTexture = 0;
-	}
-
-	//
-
-	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
-
-	if (g_clearBuffer)
-	{
-		glDeleteBuffers(1, &g_clearBuffer);
-
-		g_clearBuffer = 0;
-	}
-
-	//
-
-	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
-
-	if (g_linkedListBuffer)
-	{
-		glDeleteBuffers(1, &g_linkedListBuffer);
-
-		g_linkedListBuffer = 0;
-	}
+	glusWavefrontDestroyScene(&g_scene);
 }
 
 int main(int argc, char* argv[])
@@ -465,13 +437,15 @@ int main(int argc, char* argv[])
 	        EGL_BLUE_SIZE, 8,
 	        EGL_DEPTH_SIZE, 24,
 	        EGL_STENCIL_SIZE, 0,
+	        EGL_SAMPLE_BUFFERS, 1,
+	        EGL_SAMPLES, 8,
 	        EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
 	        EGL_NONE
 	};
 
     EGLint eglContextAttributes[] = {
-    		EGL_CONTEXT_MAJOR_VERSION, 4,
-    		EGL_CONTEXT_MINOR_VERSION, 4,
+    		EGL_CONTEXT_MAJOR_VERSION, 3,
+    		EGL_CONTEXT_MINOR_VERSION, 2,
     		EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE, EGL_TRUE,
     		EGL_CONTEXT_OPENGL_PROFILE_MASK, EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
     		EGL_NONE
@@ -485,7 +459,7 @@ int main(int argc, char* argv[])
 
     glusWindowSetTerminateFunc(terminate);
 
-    if (!glusWindowCreate("GLUS Example Window", SCREEN_WIDTH, SCREEN_HEIGHT, GLUS_FALSE, GLUS_TRUE, eglConfigAttributes, eglContextAttributes, 0))
+    if (!glusWindowCreate("GLUS Example Window", 640, 480, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes, eglContextAttributes, 0))
     {
         printf("Could not create window!\n");
         return -1;
