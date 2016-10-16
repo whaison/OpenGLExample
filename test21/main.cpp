@@ -1,168 +1,189 @@
 
+
 #include <stdio.h>
 
 #include "GL/glus.h"
 
-/**
- * The used shader program.
- */
+static GLUSfloat g_cameraPosition[3] = { -5.0f, 5.0f, 10.0f };
+
+static GLUSfloat g_lightDirection[3] = { 0.0f, 0.0f, 10.0f };
+
 static GLUSprogram g_program;
 
-/**
- * Location of the model view projection matrix in the shader program.
- */
-static GLint g_modelViewProjectionMatrixLocation;
+static GLint g_projectionMatrixLocation;
 
-/**
- * The location of the vertex in the shader program.
- */
+static GLint g_viewMatrixLocation;
+
+static GLint g_modelMatrixLocation;
+
+static GLint g_normalMatrixLocation;
+
+static GLint g_lightDirectionLocation;
+
+static GLint g_colorLocation;
+
 static GLint g_vertexLocation;
 
-/**
- * The location of the texture coordinate in the shader program.
- */
-static GLint g_texCoordLocation;
+static GLint g_normalLocation;
 
-/**
- * The location of the texture in the shader program.
- */
-static GLint g_textureLocation;
+//
 
-/**
- * The VBO for the vertices.
- */
+static GLUSprogram g_programShadow;
+
+static GLint g_projectionMatrixShadowLocation;
+
+static GLint g_viewMatrixShadowLocation;
+
+static GLint g_shadowProjectionMatrixShadowLocation;
+
+static GLint g_modelMatrixShadowLocation;
+
+static GLint g_vertexShadowLocation;
+
+//
+
 static GLuint g_verticesVBO;
 
-/**
- * The VBO for the texture coordinates.
- */
-static GLuint g_texCoordsVBO;
+static GLuint g_normalsVBO;
 
-/**
- * The VBO for the indices.
- */
 static GLuint g_indicesVBO;
 
-/**
- * The VAO for the vertices etc.
- */
+static GLuint g_verticesBackgroundVBO;
+
+static GLuint g_normalsBackgroundVBO;
+
+static GLuint g_indicesBackgroundVBO;
+
+//
+
 static GLuint g_vao;
 
-/**
- * The texture.
- */
-static GLuint g_texture;
+static GLuint g_vaoShadow;
 
-/**
- * The number of the indices
- */
-static GLuint g_numberIndicesPlane;
+static GLuint g_vaoBackground;
 
-/**
- * Width of the image.
- */
-static GLuint g_imageWidth = 800;
+//
 
-/**
- * Height of the image.
- */
-static GLuint g_imageHeight = 600;
+static GLuint g_numberIndicesTorus;
 
-static GLuint g_localSize = 16;
-
-/**
- * The used compute shader program.
- */
-static GLUSprogram g_computeProgram;
-
-/**
- * The location of the texture in the compute shader program.
- */
-static GLint g_computeTextureLocation;
+static GLuint g_numberIndicesBackground;
 
 GLUSboolean init(GLUSvoid)
 {
+    GLUSshape background;
+    
+    GLUSshape torus;
+    
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
-    GLUStextfile computeSource;
     
-    GLUSshape plane;
+    GLfloat viewMatrix[16];
     
-    glusFileLoadText("shaders/Example21/shader/texture.vert.glsl", &vertexSource);
-    glusFileLoadText("shaders/Example21/shader/texture.frag.glsl", &fragmentSource);
+    GLfloat lightDirection[3];
     
-    glusProgramBuildFromSource(&g_program, (const GLchar**) &vertexSource.text, 0, 0, 0, (const GLchar**) &fragmentSource.text);
+    lightDirection[0] = g_lightDirection[0];
+    lightDirection[1] = g_lightDirection[1];
+    lightDirection[2] = g_lightDirection[2];
+    
+    glusVector3Normalizef(lightDirection);
+    
+    //
+    
+    glusFileLoadText("shaders/Example21/shader/shadow.vert.glsl", &vertexSource);
+    glusFileLoadText("shaders/Example21/shader/shadow.frag.glsl", &fragmentSource);
+    
+    glusProgramBuildFromSource(&g_programShadow, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
     
     glusFileDestroyText(&vertexSource);
     glusFileDestroyText(&fragmentSource);
     
+    //
     
-    glusFileLoadText("shaders/Example21/shader/texture.comp.glsl", &computeSource);
+    glusFileLoadText("shaders/Example21/shader/color.vert.glsl", &vertexSource);
+    glusFileLoadText("shaders/Example21/shader/color.frag.glsl", &fragmentSource);
     
-    glusProgramBuildComputeFromSource(&g_computeProgram, (const GLchar**) &computeSource.text);
+    glusProgramBuildFromSource(&g_program, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
     
-    glusFileDestroyText(&computeSource);
+    glusFileDestroyText(&vertexSource);
+    glusFileDestroyText(&fragmentSource);
     
     //
     
-    // Retrieve the uniform locations in the program.
-    g_modelViewProjectionMatrixLocation = glGetUniformLocation(g_program.program, "u_modelViewProjectionMatrix");
-    g_textureLocation = glGetUniformLocation(g_program.program, "u_texture");
+    g_projectionMatrixShadowLocation = glGetUniformLocation(g_programShadow.program, "u_projectionMatrix");
+    g_viewMatrixShadowLocation = glGetUniformLocation(g_programShadow.program, "u_viewMatrix");
+    g_shadowProjectionMatrixShadowLocation = glGetUniformLocation(g_programShadow.program, "u_shadowProjectionMatrix");
+    g_modelMatrixShadowLocation = glGetUniformLocation(g_programShadow.program, "u_modelMatrix");
+    g_vertexShadowLocation = glGetAttribLocation(g_programShadow.program, "a_vertex");
+    
+    //
+    
+    g_projectionMatrixLocation = glGetUniformLocation(g_program.program, "u_projectionMatrix");
+    g_viewMatrixLocation = glGetUniformLocation(g_program.program, "u_viewMatrix");
+    g_modelMatrixLocation = glGetUniformLocation(g_program.program, "u_modelMatrix");
+    g_normalMatrixLocation = glGetUniformLocation(g_program.program, "u_normalMatrix");
+    g_colorLocation = glGetUniformLocation(g_program.program, "u_shapeColor");
+    g_lightDirectionLocation = glGetUniformLocation(g_program.program, "u_lightDirection");
     
     g_vertexLocation = glGetAttribLocation(g_program.program, "a_vertex");
-    g_texCoordLocation = glGetAttribLocation(g_program.program, "a_texCoord");
-    
-    
-    g_computeTextureLocation = glGetUniformLocation(g_computeProgram.program, "u_texture");
+    g_normalLocation = glGetAttribLocation(g_program.program, "a_normal");
     
     //
     
-    // Generate and bind a texture.
-    glGenTextures(1, &g_texture);
-    glBindTexture(GL_TEXTURE_2D, g_texture);
-    
-    // Create an empty image.
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, g_imageWidth, g_imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    
-    // Setting the texture parameters.
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    //
-    
-    // Use a helper function to create a rectangular plane.
-    glusShapeCreateRectangularPlanef(&plane, (GLfloat) g_imageWidth / 2.0f, (GLfloat) g_imageHeight / 2.0f);
-    
-    // Store the number indices, as we will render with glDrawElements.
-    g_numberIndicesPlane = plane.numberIndices;
+    glusShapeCreateTorusf(&torus, 0.5f, 1.0f, 32, 32);
+    g_numberIndicesTorus = torus.numberIndices;
     
     glGenBuffers(1, &g_verticesVBO);
     glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
-    glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) plane.vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, torus.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) torus.vertices, GL_STATIC_DRAW);
     
-    glGenBuffers(1, &g_texCoordsVBO);
-    glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-    glBufferData(GL_ARRAY_BUFFER, plane.numberVertices * 2 * sizeof(GLfloat), (GLfloat*) plane.texCoords, GL_STATIC_DRAW);
+    glGenBuffers(1, &g_normalsVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+    glBufferData(GL_ARRAY_BUFFER, torus.numberVertices * 3 * sizeof(GLfloat), (GLfloat*) torus.normals, GL_STATIC_DRAW);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
-    // Generate a VBO for the indices.
     glGenBuffers(1, &g_indicesVBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, plane.numberIndices * sizeof(GLuint), (GLuint*) plane.indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, torus.numberIndices * sizeof(GLuint), (GLuint*) torus.indices, GL_STATIC_DRAW);
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     
-    // Now we can destroy the shape, as all data is now on the GPU.
-    glusShapeDestroyf(&plane);
+    glusShapeDestroyf(&torus);
+    
+    //
+    
+    glusShapeCreatePlanef(&background, 10.0f);
+    g_numberIndicesBackground = background.numberIndices;
+    
+    glGenBuffers(1, &g_verticesBackgroundVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesBackgroundVBO);
+    glBufferData(GL_ARRAY_BUFFER, background.numberVertices * 4 * sizeof(GLfloat), (GLfloat*) background.vertices, GL_STATIC_DRAW);
+    
+    glGenBuffers(1, &g_normalsBackgroundVBO);
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsBackgroundVBO);
+    glBufferData(GL_ARRAY_BUFFER, background.numberVertices * 3 * sizeof(GLfloat), (GLfloat*) background.normals, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    
+    glGenBuffers(1, &g_indicesBackgroundVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, background.numberIndices * sizeof(GLuint), (GLuint*) background.indices, GL_STATIC_DRAW);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
+    glusShapeDestroyf(&background);
     
     //
     
     glUseProgram(g_program.program);
+    
+    glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    
+    glusMatrix4x4MultiplyVector3f(lightDirection, viewMatrix, lightDirection);
+    
+    glUniform3fv(g_lightDirectionLocation, 1, lightDirection);
+    
+    // Torus
     
     glGenVertexArrays(1, &g_vao);
     glBindVertexArray(g_vao);
@@ -171,76 +192,158 @@ GLUSboolean init(GLUSvoid)
     glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(g_vertexLocation);
     
-    glBindBuffer(GL_ARRAY_BUFFER, g_texCoordsVBO);
-    glVertexAttribPointer(g_texCoordLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(g_texCoordLocation);
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsVBO);
+    glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_normalLocation);
     
-    // Also bind the indices to the VAO.
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
+    
+    // Plane
+    
+    glGenVertexArrays(1, &g_vaoBackground);
+    glBindVertexArray(g_vaoBackground);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesBackgroundVBO);
+    glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_vertexLocation);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, g_normalsBackgroundVBO);
+    glVertexAttribPointer(g_normalLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_normalLocation);
+    
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesBackgroundVBO);
+    
+    //
+    
+    glUseProgram(g_programShadow.program);
+    
+    // Torus
+    
+    glGenVertexArrays(1, &g_vaoShadow);
+    glBindVertexArray(g_vaoShadow);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, g_verticesVBO);
+    glVertexAttribPointer(g_vertexShadowLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(g_vertexShadowLocation);
+    
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g_indicesVBO);
     
     //
     
-    // Also bind created texture ...
-    glBindTexture(GL_TEXTURE_2D, g_texture);
-    
-    // ... and bind this texture as an image, as we will write to it.
-    glBindImageTexture(0, g_texture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA8);
-    
-    // ... and as this is texture number 0, bind the uniform to the program.
-    glUniform1i(g_textureLocation, 0);
-    
-    //
-    
-    glUseProgram(g_computeProgram.program);
-    
-    // Pass texture number 0 to the compute shader as well.
-    glUniform1i(g_computeTextureLocation, 0);
-    
-    //
-    
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    
+    glClearDepth(1.0f);
+    
+    glEnable(GL_DEPTH_TEST);
+    
+    glEnable(GL_CULL_FACE);
     
     return GLUS_TRUE;
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-    GLfloat viewMatrix[16];
-    GLfloat modelViewProjectionMatrix[16];
+    GLfloat projectionMatrix[16];
     
-    glViewport(0, 0, width, height);
+    //
     
-    // Create the view matrix.
-    glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-    
-    // Create a orthogonal projection matrix.
-    glusMatrix4x4Orthof(modelViewProjectionMatrix, -(GLfloat) width / 2.0f, (GLfloat) width / 2.0f, -(GLfloat) height / 2.0f, (GLfloat) height / 2.0f, 1.0f, 100.0f);
-    
-    // MVP = P * V * M (Note: Here we do not have model matrix).
-    glusMatrix4x4Multiplyf(modelViewProjectionMatrix, modelViewProjectionMatrix, viewMatrix);
-    
-    // Use render program.
     glUseProgram(g_program.program);
     
-    // Pass the model view projection matrix to the current active program.
-    glUniformMatrix4fv(g_modelViewProjectionMatrixLocation, 1, GL_FALSE, modelViewProjectionMatrix);
+    glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
+    
+    glUniformMatrix4fv(g_projectionMatrixLocation, 1, GL_FALSE, projectionMatrix);
+    
+    //
+    
+    glUseProgram(g_programShadow.program);
+    
+    glUniformMatrix4fv(g_projectionMatrixShadowLocation, 1, GL_FALSE, projectionMatrix);
+    
 }
 
 GLUSboolean update(GLUSfloat time)
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    static GLfloat angle = 0.0f;
     
-    // Switch to the compute shader.
-    glUseProgram(g_computeProgram.program);
+    GLfloat modelViewMatrix[16];
     
-    // Create threads depending on width, height and block size. In this case we have 1200 threads.
-    glDispatchCompute(g_imageWidth / g_localSize, g_imageHeight / g_localSize, 1);
+    GLfloat viewMatrix[16];
+    GLfloat shadowProjectionMatrix[16];
+    GLfloat modelMatrix[16];
+    GLfloat normalMatrix[9];
     
-    // Switch back to the render program.
+    // This shadow plane represents mathematically the background plane
+    GLfloat shadowPlane[4] = {0.0f, 0.0f, 1.0f, 5.0f};
+    
+    glusMatrix4x4LookAtf(viewMatrix, g_cameraPosition[0], g_cameraPosition[1], g_cameraPosition[2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+    
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    //
+    // Render the scene.
+    //
+    
     glUseProgram(g_program.program);
     
-    // Here we draw the plane / rectangle using the indices, stored in the VBO.
-    glDrawElements(GL_TRIANGLES, g_numberIndicesPlane, GL_UNSIGNED_INT, 0);
+    glUniformMatrix4fv(g_viewMatrixLocation, 1, GL_FALSE, viewMatrix);
+    
+    // Background Plane
+    
+    glusMatrix4x4Identityf(modelMatrix);
+    glusMatrix4x4Translatef(modelMatrix, 0.0f, 0.0f, -5.0f);
+    glusMatrix4x4Multiplyf(modelViewMatrix, viewMatrix, modelMatrix);
+    glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
+    
+    glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, modelMatrix);
+    glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
+    glUniform4f(g_colorLocation, 0.0f, 0.5f, 0.0f, 1.0f);
+    
+    glBindVertexArray(g_vaoBackground);
+    glDrawElements(GL_TRIANGLES, g_numberIndicesBackground, GL_UNSIGNED_INT, 0);
+    
+    //
+    // Render the planar shadow
+    //
+    
+    glUseProgram(g_programShadow.program);
+    
+    glUniformMatrix4fv(g_viewMatrixShadowLocation, 1, GL_FALSE, viewMatrix);
+    
+    // Torus projected as a shadow
+    
+    glusMatrix4x4PlanarShadowDirectionalLightf(shadowProjectionMatrix, shadowPlane, g_lightDirection);
+    glUniformMatrix4fv(g_shadowProjectionMatrixShadowLocation, 1, GL_FALSE, shadowProjectionMatrix);
+    
+    glusMatrix4x4Identityf(modelMatrix);
+    glusMatrix4x4RotateRzRxRyf(modelMatrix, 0.0f, 0.0f, angle);
+    glUniformMatrix4fv(g_modelMatrixShadowLocation, 1, GL_FALSE, modelMatrix);
+    
+    glBindVertexArray(g_vaoShadow);
+    
+    // Overwrite the background plane
+    glDisable(GL_DEPTH_TEST);
+    
+    glDrawElements(GL_TRIANGLES, g_numberIndicesTorus, GL_UNSIGNED_INT, 0);
+    
+    glEnable(GL_DEPTH_TEST);
+    
+    // Torus with color
+    
+    glUseProgram(g_program.program);
+    
+    glusMatrix4x4Multiplyf(modelViewMatrix, viewMatrix, modelMatrix);
+    glusMatrix4x4ExtractMatrix3x3f(normalMatrix, modelViewMatrix);
+    
+    glUniformMatrix4fv(g_modelMatrixLocation, 1, GL_FALSE, modelMatrix);
+    glUniformMatrix3fv(g_normalMatrixLocation, 1, GL_FALSE, normalMatrix);
+    glUniform4f(g_colorLocation, 0.33f, 0.0f, 0.5f, 1.0f);
+    
+    glBindVertexArray(g_vao);
+    glDrawElements(GL_TRIANGLES, g_numberIndicesTorus, GL_UNSIGNED_INT, 0);
+    
+    //
+    
+    angle += 20.0f * time;
     
     return GLUS_TRUE;
 }
@@ -256,11 +359,11 @@ GLUSvoid terminate(GLUSvoid)
         g_verticesVBO = 0;
     }
     
-    if (g_texCoordsVBO)
+    if (g_normalsVBO)
     {
-        glDeleteBuffers(1, &g_texCoordsVBO);
+        glDeleteBuffers(1, &g_normalsVBO);
         
-        g_texCoordsVBO = 0;
+        g_normalsVBO = 0;
     }
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -272,15 +375,6 @@ GLUSvoid terminate(GLUSvoid)
         g_indicesVBO = 0;
     }
     
-    glBindTexture(GL_TEXTURE_2D, 0);
-    
-    if (g_texture)
-    {
-        glDeleteTextures(1, &g_texture);
-        
-        g_texture = 0;
-    }
-    
     glBindVertexArray(0);
     
     if (g_vao)
@@ -290,11 +384,50 @@ GLUSvoid terminate(GLUSvoid)
         g_vao = 0;
     }
     
+    //
+    
+    if (g_verticesBackgroundVBO)
+    {
+        glDeleteBuffers(1, &g_verticesBackgroundVBO);
+        
+        g_verticesBackgroundVBO = 0;
+    }
+    
+    if (g_normalsBackgroundVBO)
+    {
+        glDeleteBuffers(1, &g_normalsBackgroundVBO);
+        
+        g_normalsBackgroundVBO = 0;
+    }
+    
+    if (g_indicesBackgroundVBO)
+    {
+        glDeleteBuffers(1, &g_indicesBackgroundVBO);
+        
+        g_indicesBackgroundVBO = 0;
+    }
+    
+    if (g_vaoBackground)
+    {
+        glDeleteVertexArrays(1, &g_vaoBackground);
+        
+        g_vao = 0;
+    }
+    
     glUseProgram(0);
     
     glusProgramDestroy(&g_program);
     
-    glusProgramDestroy(&g_computeProgram);
+    //
+    
+    if (g_vaoShadow)
+    {
+        glDeleteVertexArrays(1, &g_vaoShadow);
+        
+        g_vaoShadow = 0;
+    }
+    
+    glusProgramDestroy(&g_programShadow);
 }
 
 int main(int argc, char* argv[])
@@ -303,15 +436,15 @@ int main(int argc, char* argv[])
         EGL_RED_SIZE, 8,
         EGL_GREEN_SIZE, 8,
         EGL_BLUE_SIZE, 8,
-        EGL_DEPTH_SIZE, 0,
+        EGL_DEPTH_SIZE, 24,
         EGL_STENCIL_SIZE, 0,
         EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
         EGL_NONE
     };
     
     EGLint eglContextAttributes[] = {
-        EGL_CONTEXT_MAJOR_VERSION, 4,
-        EGL_CONTEXT_MINOR_VERSION, 3,
+        EGL_CONTEXT_MAJOR_VERSION, 3,
+        EGL_CONTEXT_MINOR_VERSION, 2,
         EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE, EGL_TRUE,
         EGL_CONTEXT_OPENGL_PROFILE_MASK, EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT,
         EGL_NONE
@@ -325,7 +458,7 @@ int main(int argc, char* argv[])
     
     glusWindowSetTerminateFunc(terminate);
     
-    if (!glusWindowCreate("Compute shader", 800, 600, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes, eglContextAttributes, 0))
+    if (!glusWindowCreate("Projection shadow for directional light", 800, 600, GLUS_FALSE, GLUS_FALSE, eglConfigAttributes, eglContextAttributes, 0))
     {
         printf("Could not create window!\n");
         return -1;
