@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "780908941D9A6AE8001CC982"
-               BuildableName = "test12"
-               BlueprintName = "test12"
+               BlueprintIdentifier = "783D5E431DBB4BCA005E715D"
+               BuildableName = "test36"
+               BlueprintName = "test36"
                ReferencedContainer = "container:OpenGLExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "780908941D9A6AE8001CC982"
-            BuildableName = "test12"
-            BlueprintName = "test12"
+            BlueprintIdentifier = "783D5E431DBB4BCA005E715D"
+            BuildableName = "test36"
+            BlueprintName = "test36"
             ReferencedContainer = "container:OpenGLExample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -55,9 +55,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "780908941D9A6AE8001CC982"
-            BuildableName = "test12"
-            BlueprintName = "test12"
+            BlueprintIdentifier = "783D5E431DBB4BCA005E715D"
+            BuildableName = "test36"
+            BlueprintName = "test36"
             ReferencedContainer = "container:OpenGLExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -74,9 +74,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "780908941D9A6AE8001CC982"
-            BuildableName = "test12"
-            BlueprintName = "test12"
+            BlueprintIdentifier = "783D5E431DBB4BCA005E715D"
+            BuildableName = "test36"
+            BlueprintName = "test36"
             ReferencedContainer = "container:OpenGLExample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

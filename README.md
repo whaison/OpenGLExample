@@ -96,13 +96,19 @@ Example31 - Subsurface scattering
 ![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test31.png?raw=true)
 
 Example32 - Order independent transparency using depth peeling
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test32.png?raw=true)
 
 Example33 - CPU ray marching
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test33.png?raw=true)
 
 Example34 - Basic usage of program pipeline and separable programs(OpenGL 4.1)
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test34.png?raw=true)
 
-Example35 - Basic usage of program pipeline, separable programs and shader subroutines (OpenGL 4.1, AMD hardware does not work properly)
+Example35 - Basic usage of program pipeline, separable programs and shader subroutines (OpenGL 4.1)
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test35.png?raw=true)
 
 Example36 - Scene with several models having groups and materials
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test36.png?raw=true)
 
 Example37 - Conservative rasterization
+![image](https://github.com/BobLChen/OpenGLExample/blob/master/images/test37.png?raw=true)

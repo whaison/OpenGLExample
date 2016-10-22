@@ -124,6 +124,36 @@
 			<key>orderHint</key>
 			<integer>29</integer>
 		</dict>
+		<key>test32.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>30</integer>
+		</dict>
+		<key>test33.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>31</integer>
+		</dict>
+		<key>test34.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>32</integer>
+		</dict>
+		<key>test35.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>33</integer>
+		</dict>
+		<key>test36.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>34</integer>
+		</dict>
+		<key>test37.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>35</integer>
+		</dict>
 		<key>test4.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -298,6 +328,36 @@
 			<true/>
 		</dict>
 		<key>781DD7A81DAA2EE90091D005</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5DF01DBB4861005E715D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5E041DBB4952005E715D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5E1B1DBB4A62005E715D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5E2F1DBB4B09005E715D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5E431DBB4BCA005E715D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>783D5E871DBB4C84005E715D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

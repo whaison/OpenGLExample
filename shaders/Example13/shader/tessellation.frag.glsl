@@ -7,5 +7,5 @@ in vec4 v_position;
 void main(void)
 {
 	fragColor = vec4(1.0, 0.0, 0.0, 1.0);
-    // fragColor = v_position;
+    //fragColor = v_position;
 }
