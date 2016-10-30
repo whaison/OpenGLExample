@@ -1,27 +1,10 @@
-
-
 #include <stdio.h>
-
 #include "GL/glus.h"
+#include "common.h"
 
-/**
- * The used shader program.
- */
 static GLUSprogram g_program;
-
-/**
- * The location of the vertex in the shader program.
- */
 static GLint g_vertexLocation;
-
-/**
- * The VBO for the vertices.
- */
 static GLuint g_verticesVBO;
-
-/**
- * The VAO for the vertices and later normals etc..
- */
 static GLuint g_vao;
 
 GLUSboolean init(GLUSvoid)
@@ -76,12 +59,17 @@ GLUSboolean init(GLUSvoid)
     
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     
+    GLUSint frameWidth  = glusWindowGetFrameWidth();
+    GLUSint frameHeight = glusWindowGetFrameHeight();
+    
+    printf("frame=%dx%d\n", frameWidth, frameHeight);
+    
     return GLUS_TRUE;
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, 1600, 1200);
 }
 
 GLUSboolean update(GLUSfloat time)

@@ -184,4 +184,18 @@ GLUSAPI GLUSint GLUSAPIENTRY glusWindowGetWidth(GLUSvoid);
  */
 GLUSAPI GLUSint GLUSAPIENTRY glusWindowGetHeight(GLUSvoid);
 
+/**
+ * Get frame height.
+ *
+ * @return The height of the frame.
+ */
+GLUSAPI GLUSint GLUSAPIENTRY glusWindowGetFrameWidth(GLUSvoid);
+
+/**
+ * Get frame width.
+ *
+ * @return The width of the frame.
+ */
+GLUSAPI GLUSint GLUSAPIENTRY glusWindowGetFrameHeight(GLUSvoid);
+
 #endif /* GLUS_WINDOW_H_ */

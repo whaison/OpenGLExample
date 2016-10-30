@@ -1156,6 +1156,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2885DAF91DC6B76C00856EB2 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = common/common.h; sourceTree = "<group>"; };
 		780907D71D979526001CC982 /* test3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test3; sourceTree = BUILT_PRODUCTS_DIR; };
 		780907D91D979526001CC982 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		780907E81D979930001CC982 /* Binaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Binaries; sourceTree = "<group>"; };
@@ -1816,6 +1817,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2885DAF81DC6B74600856EB2 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				2885DAF91DC6B76C00856EB2 /* common.h */,
+			);
+			name = common;
+			sourceTree = "<group>";
+		};
 		780907D81D979526001CC982 /* test3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2172,6 +2181,7 @@
 		78AFF5321D92910A001FAD7A = {
 			isa = PBXGroup;
 			children = (
+				2885DAF81DC6B74600856EB2 /* common */,
 				7814AAC21DB378A20025F113 /* assets */,
 				780907E81D979930001CC982 /* Binaries */,
 				78AFF59A1D92B4C4001FAD7A /* shaders */,
@@ -4492,7 +4502,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/glew/1.13.0/include $(SRCROOT)/glfw/include $(SRCROOT)/GLUS/src";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/glew/1.13.0/include $(SRCROOT)/glfw/include $(SRCROOT)/GLUS/src $(SRCROOT)common/";
 			};
 			name = Debug;
 		};
@@ -4536,7 +4546,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/glew/1.13.0/include $(SRCROOT)/glfw/include $(SRCROOT)/GLUS/src";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/glew/1.13.0/include $(SRCROOT)/glfw/include $(SRCROOT)/GLUS/src $(SRCROOT)common/";
 			};
 			name = Release;
 		};
@@ -4843,6 +4853,7 @@
 				783D5DF61DBB4861005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		783D5E091DBB4952005E715D /* Build configuration list for PBXNativeTarget "test33" */ = {
 			isa = XCConfigurationList;
@@ -4851,6 +4862,7 @@
 				783D5E0B1DBB4952005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		783D5E201DBB4A62005E715D /* Build configuration list for PBXNativeTarget "test34" */ = {
 			isa = XCConfigurationList;
@@ -4859,6 +4871,7 @@
 				783D5E221DBB4A62005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		783D5E341DBB4B09005E715D /* Build configuration list for PBXNativeTarget "test35" */ = {
 			isa = XCConfigurationList;
@@ -4867,6 +4880,7 @@
 				783D5E361DBB4B09005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		783D5E481DBB4BCA005E715D /* Build configuration list for PBXNativeTarget "test36" */ = {
 			isa = XCConfigurationList;
@@ -4875,6 +4889,7 @@
 				783D5E4A1DBB4BCA005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		783D5E8C1DBB4C84005E715D /* Build configuration list for PBXNativeTarget "test37" */ = {
 			isa = XCConfigurationList;
@@ -4883,6 +4898,7 @@
 				783D5E8E1DBB4C84005E715D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		78AFF5361D92910A001FAD7A /* Build configuration list for PBXProject "OpenGLExample" */ = {
 			isa = XCConfigurationList;

@@ -36,6 +36,9 @@ static GLUSint g_mouseY = 0;
 static GLUSint g_width = 640;
 static GLUSint g_height = 480;
 
+static GLUSint g_frameWidth = 640;
+static GLUSint g_frameHeight = 480;
+
 static GLUSboolean (*glusInit)(GLUSvoid) = NULL;
 static GLUSvoid (*glusReshape)(GLUSint width, GLUSint height) = NULL;
 static GLUSboolean (*glusUpdate)(GLUSfloat time) = NULL;
@@ -127,6 +130,8 @@ GLUSvoid _glusWindowInternalReshape(GLFWwindow* window, GLUSint width, GLUSint h
 
 	if (glusReshape && g_initdone)
 	{
+		glfwGetWindowSize(g_window, &g_width, &g_height);
+		glfwGetFramebufferSize(g_window, &g_frameWidth, &g_frameHeight);
 		glusReshape(width, height);
 	}
 }
@@ -637,6 +642,7 @@ GLUSboolean GLUSAPIENTRY glusWindowCreate(const GLUSchar* title, const GLUSint w
 	glfwSetCursorPosCallback(g_window, _glusWindowInternalMouseMove);
 
 	glfwGetWindowSize(g_window, &g_width, &g_height);
+	glfwGetFramebufferSize(g_window, &g_frameWidth, &g_frameHeight);
 
 	if (debug && glusVersionIsSupported(4, 3))
 	{
@@ -796,7 +802,15 @@ GLUSint GLUSAPIENTRY glusWindowGetHeight(GLUSvoid)
 	return g_height;
 }
 
-//
+GLUSint GLUSAPIENTRY glusWindowGetFrameHeight(GLUSvoid)
+{
+	return g_frameHeight;
+}
+
+GLUSint GLUSAPIENTRY glusWindowGetFrameWidth(GLUSvoid)
+{	
+	return g_frameWidth;
+}
 
 void* GLUSAPIENTRY glusExtensionGetFuncAddress(const GLUSchar* procname)
 {

@@ -428,6 +428,16 @@ GLUSint GLUSAPIENTRY glusWindowGetHeight(GLUSvoid)
 	return g_height;
 }
 
+GLUSint GLUSAPIENTRY glusWindowGetFrameHeight(GLUSvoid)
+{
+	return g_height;
+}
+
+GLUSint GLUSAPIENTRY glusWindowGetFrameWidth(GLUSvoid)
+{
+	return g_width;
+}
+
 //
 
 void* GLUSAPIENTRY glusExtensionGetFuncAddress(const GLUSchar* procname)
