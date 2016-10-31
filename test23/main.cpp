@@ -276,7 +276,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
 {
     GLfloat projectionMatrix[16];
     
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     // Needed for screen space dependent tessellation
     glUniform1f(g_widthLocation, (GLfloat) width);

@@ -87,7 +87,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
 {
     GLfloat halfPixelSize[2];
     
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
     

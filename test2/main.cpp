@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include "GL/glus.h"
-#include "common.h"
 
 static GLUSprogram g_program;
-static GLint g_vertexLocation;
+static GLint  g_vertexLocation;
 static GLuint g_verticesVBO;
 static GLuint g_vao;
 
 GLUSboolean init(GLUSvoid)
 {
-    // Points of a triangle in normalized device coordinates.
-    GLfloat points[] = { -0.5f, 0.0f, 0.0f, 1.0f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f, 1.0f };
+    
+    GLfloat points[] = {
+        -0.5f, 0.0f, 0.0f,
+         1.0f, 0.5f, 0.0f,
+         0.0f, 1.0f, 0.0f,
+         0.5f, 0.0f, 1.0f
+    };
     
     GLUStextfile vertexSource;
     GLUStextfile fragmentSource;
@@ -55,21 +59,14 @@ GLUSboolean init(GLUSvoid)
     glVertexAttribPointer(g_vertexLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(g_vertexLocation);
     
-    //
-    
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    
-    GLUSint frameWidth  = glusWindowGetFrameWidth();
-    GLUSint frameHeight = glusWindowGetFrameHeight();
-    
-    printf("frame=%dx%d\n", frameWidth, frameHeight);
     
     return GLUS_TRUE;
 }
 
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-    glViewport(0, 0, 1600, 1200);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
 }
 
 GLUSboolean update(GLUSfloat time)

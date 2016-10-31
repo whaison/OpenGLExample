@@ -289,7 +289,7 @@ GLUSboolean renderWaterTexture(GLUSfloat passedTime)
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
-    glViewport(0, 0, g_parentWidth, g_parentHeight);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     return GLUS_TRUE;
 }

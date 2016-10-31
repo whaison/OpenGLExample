@@ -9,6 +9,8 @@
 
 //
 
+static GLfloat retina = 1.0f;
+
 static GLint g_widthViewport;
 static GLint g_heightViewport;
 
@@ -254,7 +256,9 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
     g_widthViewport = width;
     g_heightViewport = height;
     
-    glViewport(0, 0, width, height);
+    retina = glusWindowGetFrameWidth() / width;
+    
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     
@@ -298,8 +302,7 @@ GLUSboolean update(GLUSfloat time)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
     // Reset the viewport.
-    glViewport(0, 0, g_widthViewport, g_heightViewport);
-    
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     //
     // Draw the particles on the screen.
     //

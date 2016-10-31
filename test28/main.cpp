@@ -461,7 +461,6 @@ GLUSboolean init(GLUSvoid)
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
     glViewport(0, 0, width, height);
-    
     glusMatrix4x4Perspectivef(g_projectionMatrix, 40.0f, (GLfloat)width / (GLfloat)height, 1.0f, 100.0f);
 }
 
@@ -557,7 +556,7 @@ GLUSboolean update(GLUSfloat time)
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
     
-    reshape(TEXTURE_WIDTH, TEXTURE_HEIGHT);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     glUseProgram(g_programPointLight.program);
     

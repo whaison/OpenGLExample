@@ -182,7 +182,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
     GLfloat viewMatrix[16];
     GLfloat viewProjectionMatrix[16];
     
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     glusMatrix4x4LookAtf(viewMatrix, 0.0f, 0.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
     

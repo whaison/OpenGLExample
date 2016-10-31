@@ -131,8 +131,7 @@ GLUSboolean init(GLUSvoid)
     glusFileLoadText("shaders/Example22/shader/shadowvolume.geom.glsl", &geometrySource);
     glusFileLoadText("shaders/Example22/shader/shadowvolume.frag.glsl", &fragmentSource);
     
-//    glusProgramBuildFromSource(&g_programShadowVolume, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
-    glusProgramBuildFromSource(&g_programShadowVolume, (const GLUSchar**) &vertexSource.text, 0, 0, 0, (const GLUSchar**) &fragmentSource.text);
+    glusProgramBuildFromSource(&g_programShadowVolume, (const GLUSchar**) &vertexSource.text, 0, 0, (const GLUSchar**) &geometrySource.text, (const GLUSchar**) &fragmentSource.text);
     
     glusFileDestroyText(&vertexSource);
     glusFileDestroyText(&geometrySource);
@@ -319,8 +318,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
 {
     GLfloat projectionMatrix[16];
     
-    glViewport(0, 0, width, height);
-    
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     //
     
     glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
@@ -399,7 +397,7 @@ GLUSboolean update(GLUSfloat time)
     
     // Only render to the stencil buffer
     // color mask
-//    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
     glDepthMask(GL_FALSE);
     // Avoid ugly artifacts
     glEnable(GL_POLYGON_OFFSET_FILL);

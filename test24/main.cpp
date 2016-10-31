@@ -255,8 +255,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
 {
     GLfloat projectionMatrix[16];
     
-    glViewport(0, 0, width, height);
-    
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());    
     glusMatrix4x4Perspectivef(projectionMatrix, 40.0f, (GLfloat) width / (GLfloat) height, 1.0f, 100.0f);
     
     // Just pass the projection matrix. The final matrix is calculated in the shader.

@@ -173,7 +173,7 @@ GLUSvoid reshape(GLUSint width, GLUSint height)
     GLfloat viewMatrix[16];
     GLfloat modelViewProjectionMatrix[16];
     
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     // Initialize with the identity matrix ...
     glusMatrix4x4Identityf(modelMatrix);

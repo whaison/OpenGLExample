@@ -1156,7 +1156,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2885DAF91DC6B76C00856EB2 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = common.h; path = common/common.h; sourceTree = "<group>"; };
 		780907D71D979526001CC982 /* test3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test3; sourceTree = BUILT_PRODUCTS_DIR; };
 		780907D91D979526001CC982 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		780907E81D979930001CC982 /* Binaries */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Binaries; sourceTree = "<group>"; };
@@ -1817,14 +1816,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2885DAF81DC6B74600856EB2 /* common */ = {
-			isa = PBXGroup;
-			children = (
-				2885DAF91DC6B76C00856EB2 /* common.h */,
-			);
-			name = common;
-			sourceTree = "<group>";
-		};
 		780907D81D979526001CC982 /* test3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2181,7 +2172,6 @@
 		78AFF5321D92910A001FAD7A = {
 			isa = PBXGroup;
 			children = (
-				2885DAF81DC6B74600856EB2 /* common */,
 				7814AAC21DB378A20025F113 /* assets */,
 				780907E81D979930001CC982 /* Binaries */,
 				78AFF59A1D92B4C4001FAD7A /* shaders */,

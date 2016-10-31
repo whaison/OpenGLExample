@@ -419,7 +419,8 @@ GLUSboolean init(GLUSvoid)
  */
 GLUSvoid reshape(GLUSint width, GLUSint height)
 {
-    glViewport(0, 0, width, height);
+   
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
 }
 
 /**

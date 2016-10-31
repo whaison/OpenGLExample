@@ -756,6 +756,8 @@ GLUSboolean update(GLUSfloat time)
     
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
+    
     glDrawBuffer(GL_COLOR_ATTACHMENT0);
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

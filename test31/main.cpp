@@ -354,7 +354,7 @@ GLUSboolean update(GLUSfloat time)
     // Revert for the scene.
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-    glViewport(0, 0, g_width, g_height);
+    glViewport(0, 0, glusWindowGetFrameWidth(), glusWindowGetFrameHeight());
     
     glBindTexture(GL_TEXTURE_2D, g_depthPassTexture);
     
